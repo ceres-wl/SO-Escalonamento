@@ -1,6 +1,10 @@
 <script lang="ts">
     import ConfigInput from "./lib/components/FileInput/ConfigInput.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
+    import { add, helloWorld } from "./lib/cpp/api/cppApi";
+
+    helloWorld();
+    console.log(add(5.5526623, 4.55325));
 </script>
 
 <!--
