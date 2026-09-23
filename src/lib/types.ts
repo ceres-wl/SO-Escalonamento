@@ -1,4 +1,4 @@
-export interface Config {
+export interface SimulationConfig {
     quantum: number;
     aging: number;
 }

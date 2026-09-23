@@ -1,5 +1,9 @@
 import type { Processo, ProcessoInput } from "./types";
 
+// Módulo que contém a lista de de processos e seus métodos
+
+// A lista é feita com uma variável reativa por causa da UI,
+// mas em geral isso não muda nd na lógica
 let listaProcesso: Array<Processo> = $state([]);
 
 export function addProcesso(proc: ProcessoInput){
