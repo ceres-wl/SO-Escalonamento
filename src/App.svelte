@@ -1,10 +1,16 @@
 <script lang="ts">
     import ConfigInput from "./lib/components/FileInput/ConfigInput.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
-    import { add, helloWorld } from "./lib/cpp/api/cppApi";
+    import { add_proc, get_procs } from "./lib/cpp/api/cppApi";
 
-    helloWorld();
-    console.log(add(5.5526623, 4.55325));
+    let procs = get_procs();
+    if(procs){
+        console.log(Array.from(procs));
+        procs.push_back({inicio: 10, duracao: 15, prioridade_estatica: 20});
+        add_proc({inicio: 500, duracao: 1500, prioridade_estatica: 2000})
+        console.log(Array.from(procs));
+        console.log(procs.size());
+    }
 </script>
 
 <!--

@@ -8,7 +8,7 @@
     "build": "npm run build-wasm && vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
-    "build-wasm": "cross-env NO_EXIT_RUNTIME=1 em++ -o src/lib/cpp/main.js src/lib/cpp/main.cpp -O3 -sEXPORT_ES6 --emit-tsd main.ts"
+    "build-wasm": "cross-env NO_EXIT_RUNTIME=1 em++ -lembind -o src/lib/cpp/main.js src/lib/cpp/main.cpp -O3 -sEXPORT_ES6 --emit-tsd main.ts"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
