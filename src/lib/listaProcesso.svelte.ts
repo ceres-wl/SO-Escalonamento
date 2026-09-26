@@ -19,7 +19,7 @@ export function addProcesso(proc: ProcessoInput){
 
 export function removerProcesso(procId: string){
     // Ineficiente mas é o que temos
-    listaProcesso = listaProcesso.filter((proc) => proc.id != `P${procId}`).map((proc, i) => { proc.id = `P${i}`; return proc; });
+    listaProcesso = listaProcesso.filter((proc) => proc.id != procId).map((proc, i) => { proc.id = `P${i}`; return proc; });
 }
 
 export function getProcessos(){
