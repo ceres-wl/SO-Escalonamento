@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { addProcesso, removerProcesso, listarProcessos } from "../../listaProcesso.svelte";
+    import { addProcesso, removerProcesso, getProcessos } from "../../listaProcesso.svelte";
     import CommonFileInput from "./CommonFileInput.svelte";
 
     async function handleProcFile(files: FileList){
@@ -25,9 +25,9 @@
 
 <CommonFileInput label="Processos" handleFiles={handleProcFile}>
     <button onclick={() => addProcesso({criacao: 0, duracao: 1, prioridade_estatica: 0})}>Adicionar processo</button>
-    {#each listarProcessos() as process (process.id)}
+    {#each getProcessos() as process (process.id)}
         <div class="process">
-            <header>P{process.id}</header>
+            <header>{process.id}</header>
             <div class="input">
                 <label for={`criacaoP${process.id}`}>Criação</label>
                 <input bind:value={process.criacao} id={`criacaoP${process.id}`} type="number">

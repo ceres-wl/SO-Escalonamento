@@ -10,8 +10,13 @@ export interface ProcessoInput {
 }
 
 export interface Processo extends ProcessoInput{
-    id: number;
+    id: string;
     prioridade_dinamica: number;
 }
 
-export type FuncEscalonamento = (processos: Array<Processo>) => Processo;
+export interface DataPoint{
+    id: string;
+    start: number;
+    end: number;
+    current_prio?: number;
+}

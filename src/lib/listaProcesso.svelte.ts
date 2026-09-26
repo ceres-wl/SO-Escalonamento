@@ -7,7 +7,7 @@ import type { Processo, ProcessoInput } from "./types";
 let listaProcesso: Array<Processo> = $state([]);
 
 export function addProcesso(proc: ProcessoInput){
-    const id = listaProcesso.length;
+    const id = `P${listaProcesso.length}`;
 
     const procFinal: Processo = {
         ...proc,
@@ -17,11 +17,11 @@ export function addProcesso(proc: ProcessoInput){
     listaProcesso.push(procFinal);
 }
 
-export function removerProcesso(procId: number){
+export function removerProcesso(procId: string){
     // Ineficiente mas é o que temos
-    listaProcesso = listaProcesso.filter((proc) => proc.id != procId).map((proc, i) => { proc.id = i; return proc; });
+    listaProcesso = listaProcesso.filter((proc) => proc.id != `P${procId}`).map((proc, i) => { proc.id = `P${i}`; return proc; });
 }
 
-export function listarProcessos(){
+export function getProcessos(){
     return listaProcesso;
 }
