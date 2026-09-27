@@ -2,6 +2,12 @@
     import { addProcesso, removerProcesso, getProcessos } from "../../listaProcesso.svelte";
     import CommonFileInput from "./CommonFileInput.svelte";
 
+    interface Props{
+        simulated: boolean;
+    }
+
+    let { simulated = $bindable() }: Props = $props();
+
     async function handleProcFile(files: FileList){
         if(!files || !files[0]) return;
         const txt = await files[0].text();
@@ -13,7 +19,7 @@
             if([criacao, duracao, prioridade_estatica].some(isNaN)) throw new Error("Valor não é um número");
 
             addProcesso({
-                criacao,
+                inicio: criacao,
                 duracao,
                 prioridade_estatica
             });
@@ -28,25 +34,27 @@
             <h2>Processos</h2>
         {/snippet}
     
-        <button onclick={() => addProcesso({criacao: 0, duracao: 1, prioridade_estatica: 0})}>Adicionar processo</button>
-        {#each getProcessos() as process (process.id)}
-            <div class="process">
-                <header>{process.id}</header>
-                <div class="input">
-                    <label for={`criacaoP${process.id}`}>Criação</label>
-                    <input bind:value={process.criacao} id={`criacaoP${process.id}`} type="number">
+        <button onclick={() => {addProcesso({inicio: 0, duracao: 1, prioridade_estatica: 0}); simulated = false}}>Adicionar processo</button>
+        <div class="procs">
+            {#each getProcessos() as process (process.id)}
+                <div class="process">
+                    <header>{process.id}</header>
+                    <div class="input">
+                        <label for={`inicio${process.id}`}>Início</label>
+                        <input bind:value={process.inicio} id={`inicio${process.id}`} type="number">
+                    </div>
+                    <div class="input">
+                        <label for={`duracaoP${process.id}`}>Duração</label>
+                        <input bind:value={process.duracao} id={`duracaoP${process.id}`} type="number">
+                    </div>
+                    <div class="input">
+                        <label for={`prioridadeP${process.id}`}>Prioridade</label>
+                        <input bind:value={process.prioridade_estatica} id={`prioridadeP${process.id}`} type="number">
+                    </div>
+                    <button onclick={() => {removerProcesso(process.id); simulated = false}}>Remover</button>
                 </div>
-                <div class="input">
-                    <label for={`duracaoP${process.id}`}>Duração</label>
-                    <input bind:value={process.duracao} id={`duracaoP${process.id}`} type="number">
-                </div>
-                <div class="input">
-                    <label for={`prioridadeP${process.id}`}>Prioridade</label>
-                    <input bind:value={process.prioridade_estatica} id={`prioridadeP${process.id}`} type="number">
-                </div>
-                <button onclick={() => removerProcesso(process.id)}>Remover</button>
-            </div>
-        {/each}
+            {/each}
+        </div>
     </CommonFileInput>
 </div>
 
@@ -55,8 +63,16 @@
         margin-top: 0.5rem;
     }
 
+    .proc-wrapper{
+        width: 100%;
+        height: 100%;
+    }
     .proc-wrapper h2{
         margin: 0.5rem 0;
+    }
+
+    .procs{
+        height: 12rem;
     }
 
     .process{

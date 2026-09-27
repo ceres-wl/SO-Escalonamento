@@ -1,117 +1,55 @@
 <script lang="ts">
     import ProcSimulationChart from "./lib/components/charts/ProcSimulationChart.svelte";
     import ConfigInput from "./lib/components/FileInput/ConfigInput.svelte";
+    import ConfirmInput from "./lib/components/FileInput/ConfirmInput.svelte";
+    import GenerateProcs from "./lib/components/FileInput/GenerateProcs.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
-    import { add_proc, get_procs } from "./lib/cpp/api/cppApi";
+    import { FCFS } from "./lib/cpp/api/cppApi";
     import { addProcesso, getProcessos } from "./lib/listaProcesso.svelte";
     import type { DataPoint } from "./lib/types";
-
-    // Testando o wasm
-    // let procs = get_procs();
-    // if(procs){
-    //     console.log(Array.from(procs));
-    //     procs.push_back({inicio: 10, duracao: 15, prioridade_estatica: 20});
-    //     add_proc({inicio: 500, duracao: 1500, prioridade_estatica: 2000})
-    //     console.log(Array.from(procs));
-    //     console.log(procs.size());
-    // }
+    import { formatData } from "./lib/utils/formatData";
 
     // mockando os dados pra testar
     addProcesso({
-        criacao: 0,
+        inicio: 0,
         duracao: 5,
         prioridade_estatica: 2
     });
     addProcesso({
-        criacao: 0,
+        inicio: 0,
         duracao: 2,
         prioridade_estatica: 3
     });
     addProcesso({
-        criacao: 1,
+        inicio: 1,
         duracao: 4,
         prioridade_estatica: 1
     });
     addProcesso({
-        criacao: 3,
+        inicio: 3,
         duracao: 1,
         prioridade_estatica: 4
     });
     addProcesso({
-        criacao: 5,
+        inicio: 5,
         duracao: 2,
         prioridade_estatica: 5
     });
 
-	const data: Array<DataPoint> = [
-        {
-            id: "P0",
-            start: 0,
-            end: 2
-        },
-        {
-            id: "P1",
-            start: 2,
-            end: 4
-        },
-        {
-            id: "P2",
-            start: 4,
-            end: 6
-        },
-        {
-            id: "P0",
-            start: 6,
-            end: 8
-        },
-        {
-            id: "P3",
-            start: 8,
-            end: 9
-        },
-        {
-            id: "P4",
-            start: 9,
-            end: 11
-        },
-        {
-            id: "P2",
-            start: 11,
-            end: 13
-        },
-        {
-            id: "P0",
-            start: 13,
-            end: 14,
-            current_prio: 2
-        },
-	];
-
-    type Method = "FCFS" | "SJF" | "SRTF" | "PrioC" | "PrioP" | "RR" | "RR-P-E";
-    let methodSelected: Method = $state("FCFS");
+    let data: Array<DataPoint> = $state([]);
 
     let simulated = $state(false);
-
-    function handleSimulateMethod(){
-        simulated = true;
-    }
-
-    function handleCompare(){
-
-    }
-
-
+    let delaySimul = $state(500);
 </script>
 
 <!-- Estilo
-    TODO icones? yes or no
-    TODO background image? ou deixa a cor msm
-    TODO deixar tudo redondo provavelmente, ou não seila
+    TODO estilizar as coisas, eu quero manter minimalista mas tá faltando mexer numas coisas
+        titulo da página
+        área de confirmar simualação
+        rever cores
 -->
 
 <!-- Visualização
-    TODO Mostrar o gráfico com timeline dos processos
-
     TODO Fazer uma área com a opção de rodar todos os algoritmos de uma vez, pra mostrar gráficos com comparação entre eles
         tempo médio de vida
         tempo médio de espera
@@ -120,30 +58,25 @@
 -->
 
 <main>
+    <h1>Simulação de escalonamento</h1>
+    <!-- TODO area pra gerar arquivo com processos aleatório, 
+     com base em parâmetros tipo 
+            range de duração, 
+            range de criação,
+            range de prioridade,
+            quantidade de processos
+    -->
+    <GenerateProcs/>
     <div class="inputs">
         <div>
             <ConfigInput/>
-            <div class="common-div confirm">
-                <div>
-                    <select bind:value={methodSelected}>
-                        <option value="FCFS">First Come, First Served</option>
-                        <option value="SJF">Shortest Job First</option>
-                        <option value="SRTF">Shortest Remaining Time First</option>
-                        <option value="PrioC">Prioridade, sem preempção</option>
-                        <option value="PrioP">Prioridade, com preempção por prioridade</option>
-                        <option value="RR">Round-Robin, sem prioridade</option>
-                        <option value="RR-P-E">Round-Robin, com priodade e envelhecimento</option>
-                    </select>
-                    <button onclick={handleSimulateMethod}>Simular</button>
-                </div>
-                <button onclick={handleCompare}>Comparar métricas de todos os métodos</button>
-            </div>
+            <ConfirmInput bind:simulated bind:data bind:delaySimul/>
         </div>
-        <ProcInput/>
+        <ProcInput bind:simulated />
     </div>
     {#if simulated}
     <div class="visual">
-        <ProcSimulationChart {data} procs={getProcessos()}/>
+        <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
     </div>
     {/if}
 </main>
@@ -167,14 +100,12 @@
         display: flex;
         flex-direction: row;
         gap: 5px;
+
+        height: 40vh;
     }
 
     .visual{
         background-color: var(--color-bg);
-    }
-
-    .confirm{
-        margin-top: 5px;
     }
 
     :global(html, body){

@@ -1,7 +1,7 @@
 <script lang="ts">
     import DragAndDrop from "../form/DragAndDrop.svelte";
 
-    let { handleFiles, label, children } = $props();
+    let { handleFiles, label, children} = $props();
 </script>
 
 <!--
@@ -15,6 +15,3 @@
     <DragAndDrop handleFiles={handleFiles} />
     {@render children()}
 </div>
-
-<style>
-</style>

@@ -3,10 +3,13 @@ export interface SimulationConfig {
     aging: number;
 }
 
-export interface Processo {
-    criacao: number; // Tempo de criação
+export interface ProcessoInput{
+    inicio: number; // Tempo de criação
     duracao: number;
     prioridade_estatica: number;
+}
+
+export interface Processo extends ProcessoInput {
     id: string;
     prioridade_dinamica: number;
 }

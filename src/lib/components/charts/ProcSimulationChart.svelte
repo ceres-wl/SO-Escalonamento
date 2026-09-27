@@ -8,13 +8,14 @@
     interface Props{
         data: Array<DataPoint>;
         procs: Array<Processo>;
+        delaySimul: number;
     }
 
     interface DisplayDataPoint extends DataPoint{
         displayId: string;
     }
 
-    const { data, procs }: Props = $props();
+    const { data, procs, delaySimul = 500 }: Props = $props();
 
     let xDomain = $derived(getXDomain(data));
     let yDomain = $derived(getYDomain(data));
@@ -24,25 +25,40 @@
     // seria usar series e stackar elas: https://www.layerchart.com/docs/components/BarChart#grouped-and-stacked
     const inactive: Array<DisplayDataPoint> = $derived(
         procs.map((proc) =>{
-            let end = proc.criacao;
+            let end = proc.inicio;
             for(let point of data){
                 if(point.id!=proc.id) continue;
                 if(point.end > end) end = point.end;
             }
 
             return{
-                start: proc.criacao,
+                start: proc.inicio,
                 end,
                 id: proc.id,
                 displayId: "inactive"
             }
         }));
     
+    let automaticSimulation = $state(true);
+    let disableSimulationCheckbox = $state(false);
     let time = $state(0);
-    const interval = setInterval(() => {
-        time++;
-        if(time >= data.length) clearInterval(interval);
-    }, 1000);
+    let interval = 0;
+    
+    function setupAutoSimulation(delay: number){
+        clearInterval(interval);
+        interval = setInterval(() => {
+            time++;
+            if(time >= data.length){
+                clearInterval(interval);
+                automaticSimulation = false;
+                disableSimulationCheckbox = true;
+            };
+        }, delay);
+    }
+
+    $effect(() =>{
+        setupAutoSimulation(delaySimul);
+    })
 
     // Processando os dados pra dar display
     const displayData: Array<DisplayDataPoint> = $derived(
@@ -61,6 +77,17 @@
 </script>
 
 <div>
+    <label> Simular automaticamente
+        <input type="checkbox" disabled={disableSimulationCheckbox} bind:checked={automaticSimulation} onclick={(e) =>{
+            if(automaticSimulation){
+                clearInterval(interval);
+                return;
+            }
+            setupAutoSimulation(delaySimul);
+        }}>
+    </label>
+    <button onclick={() => {time=0; disableSimulationCheckbox = false}}>Resetar</button>
+    <button onclick={() => time=Infinity}>Completar</button>
     <BarChart 
         data={displayData}
         x={['start', 'end']}
@@ -70,8 +97,8 @@
         {yDomain}
         xNice={false}
         c="displayId"
-        cDomain={["inactive", ...yDomain]}
-        cRange={["#ffffff07", ...procs.map(() => randomHexColor(256, 128))]}
+        cDomain={["inactive", "CPU Ociosa", ...yDomain]}
+        cRange={["#ffffff07", "#000000", ...procs.map(() => randomHexColor(256, 128))]}
         grid={{ y: true, bandAlign: 'between' }}
         orientation="horizontal"
         labels={{
