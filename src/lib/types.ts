@@ -20,3 +20,9 @@ export interface DataPoint{
     end: number;
     current_prio?: number;
 }
+
+export interface Metrics{
+    turnaround: number;
+    waiting: number;
+    num_change: number;
+}

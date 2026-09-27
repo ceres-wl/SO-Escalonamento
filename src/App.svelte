@@ -4,43 +4,20 @@
     import ConfirmInput from "./lib/components/FileInput/ConfirmInput.svelte";
     import GenerateProcs from "./lib/components/FileInput/GenerateProcs.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
-    import { FCFS } from "./lib/cpp/api/cppApi";
-    import { addProcesso, getProcessos } from "./lib/listaProcesso.svelte";
-    import type { DataPoint } from "./lib/types";
-    import { formatData } from "./lib/utils/formatData";
-
-    // mockando os dados pra testar
-    addProcesso({
-        inicio: 0,
-        duracao: 5,
-        prioridade_estatica: 2
-    });
-    addProcesso({
-        inicio: 0,
-        duracao: 2,
-        prioridade_estatica: 3
-    });
-    addProcesso({
-        inicio: 1,
-        duracao: 4,
-        prioridade_estatica: 1
-    });
-    addProcesso({
-        inicio: 3,
-        duracao: 1,
-        prioridade_estatica: 4
-    });
-    addProcesso({
-        inicio: 5,
-        duracao: 2,
-        prioridade_estatica: 5
-    });
+    import { getProcessos } from "./lib/listaProcesso.svelte";
+    import type { DataPoint, Metrics } from "./lib/types";
 
     let data: Array<DataPoint> = $state([]);
+    let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
 
     let simulated = $state(false);
     let delaySimul = $state(500);
 </script>
+
+<!-- Acessibilidade
+    TODO transformar todos os inputs em forms, pra navegar com enter e tal
+    TODO responsividade :(
+-->
 
 <!-- Estilo
     TODO estilizar as coisas, eu quero manter minimalista mas tá faltando mexer numas coisas
@@ -59,23 +36,18 @@
 
 <main>
     <h1>Simulação de escalonamento</h1>
-    <!-- TODO area pra gerar arquivo com processos aleatório, 
-     com base em parâmetros tipo 
-            range de duração, 
-            range de criação,
-            range de prioridade,
-            quantidade de processos
-    -->
-    <GenerateProcs/>
+    <GenerateProcs bind:simulated />
     <div class="inputs">
         <div>
             <ConfigInput/>
-            <ConfirmInput bind:simulated bind:data bind:delaySimul/>
+            <ConfirmInput bind:metrics bind:simulated bind:data bind:delaySimul/>
         </div>
         <ProcInput bind:simulated />
     </div>
     {#if simulated}
     <div class="visual">
+        <!-- TODO estilozinho melhor pra isso-->
+        <p>TT: {metrics.turnaround} | TW: {metrics.waiting} | trocas de contexto: {metrics.num_change}</p>
         <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
     </div>
     {/if}

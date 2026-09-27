@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { addProcesso, removerProcesso, getProcessos } from "../../listaProcesso.svelte";
+    import { addProcesso, removeProcesso, getProcessos, updateProcesso, clearProcs } from "../../listaProcesso.svelte";
+    import type { Processo } from "../../types";
     import CommonFileInput from "./CommonFileInput.svelte";
 
     interface Props{
@@ -25,6 +26,11 @@
             });
         }
     }
+
+    function updateProc(process: Processo){
+        updateProcesso(process.id, process);
+        simulated = false;
+    }
 </script>
 
 <!-- TODO dar um estilozinho pro header de cada processo e pro botão de remover -->
@@ -35,23 +41,27 @@
         {/snippet}
     
         <button onclick={() => {addProcesso({inicio: 0, duracao: 1, prioridade_estatica: 0}); simulated = false}}>Adicionar processo</button>
+        <button onclick={() => {clearProcs(); simulated = false}}>Limpar processos</button>
         <div class="procs">
             {#each getProcessos() as process (process.id)}
                 <div class="process">
                     <header>{process.id}</header>
                     <div class="input">
                         <label for={`inicio${process.id}`}>Início</label>
-                        <input bind:value={process.inicio} id={`inicio${process.id}`} type="number">
+                        <input id={`inicio${process.id}`} type="number" 
+                        bind:value={() => process.inicio, (newVal) => updateProc({...process, inicio: newVal})}>
                     </div>
                     <div class="input">
                         <label for={`duracaoP${process.id}`}>Duração</label>
-                        <input bind:value={process.duracao} id={`duracaoP${process.id}`} type="number">
+                        <input id={`duracaoP${process.id}`} type="number" 
+                        bind:value={() => process.duracao, (newVal) => updateProc({...process, duracao: newVal})}>
                     </div>
                     <div class="input">
                         <label for={`prioridadeP${process.id}`}>Prioridade</label>
-                        <input bind:value={process.prioridade_estatica} id={`prioridadeP${process.id}`} type="number">
+                        <input id={`prioridadeP${process.id}`} type="number"
+                        bind:value={() => process.prioridade_estatica, (newVal) => updateProc({...process, prioridade_estatica: newVal})}>
                     </div>
-                    <button onclick={() => {removerProcesso(process.id); simulated = false}}>Remover</button>
+                    <button onclick={() => {removeProcesso(process.id); simulated = false}}>Remover</button>
                 </div>
             {/each}
         </div>

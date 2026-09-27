@@ -1,20 +1,24 @@
 <script lang="ts">
     import { FCFS } from "../../cpp/api/cppApi";
-    import type { DataPoint } from "../../types";
+    import { getProcessos } from "../../listaProcesso.svelte";
+    import type { DataPoint, Metrics } from "../../types";
     import { formatData } from "../../utils/formatData";
 
     interface Props{
         simulated: boolean;
+        metrics: Metrics
         data: Array<DataPoint>;
         delaySimul: number;
     }
 
-    let { simulated = $bindable(), data = $bindable(), delaySimul = $bindable() }: Props = $props();
+    let { simulated = $bindable(), metrics = $bindable(), data = $bindable(), delaySimul = $bindable() }: Props = $props();
 
     type Algorithm = "FCFS" | "SJF" | "SRTF" | "PrioC" | "PrioP" | "RR" | "RR-P-E";
     let algoSelected: Algorithm = $state("FCFS");
 
     function handleSimulateMethod(){
+        if(getProcessos().length == 0) return;
+
         let saida;
         switch (algoSelected) {
             case "FCFS":
@@ -29,8 +33,13 @@
             default:
                 saida = FCFS();
         }
-        
+
         data = formatData(Array.from(saida.diagrama_tempo));
+        metrics = {
+            num_change: saida.trocas_contexto,
+            turnaround: saida.tt,
+            waiting: saida.tw
+        };
         simulated = true;
     }
 

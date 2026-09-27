@@ -30,7 +30,7 @@
 </script>
 
 <div class="dragzone" ondragover={handleDragOver} ondragenter={handleDragIn} ondragleave={handleDragOut} ondrop={handleDrop} role="button" tabindex="0">
-    <label for="file-select">
+    <label>
         {#if dragging}
             <!-- <FileUpload class="icon-insc" height="1em" width="1em"/> -->
             <p>Solte para fazer o upload</p>

@@ -24,9 +24,18 @@ export function addProcesso(proc: ProcessoInput){
     listaProcesso.push(procFinal);
 }
 
-export function removerProcesso(procId: string){
-    // Extramamente ineficiente, mas não lembro como faz isso no c++ então tou fzd no js e copiando tudo pra lá :P
+export function updateProcesso(procId: string, proc: Processo){
+    listaProcesso[listaProcesso.findIndex((proc) => proc.id = procId)] = proc;
+    syncProcesses();
+}
+
+export function removeProcesso(procId: string){
     listaProcesso = listaProcesso.filter((proc) => proc.id != procId).map((proc, i) => { proc.id = `P${i}`; return proc; });
+    syncProcesses();
+}
+
+export function syncProcesses(){
+    // Extramamente ineficiente, mas é a forma mais fácil de fzr isso :P
     clear_procs();
     for(let i = 0; i < listaProcesso.length; i++){
         add_proc({
@@ -34,6 +43,11 @@ export function removerProcesso(procId: string){
             id: i
         });
     }
+}
+
+export function clearProcs(){
+    listaProcesso = [];
+    clear_procs();
 }
 
 export function getProcessos(){
