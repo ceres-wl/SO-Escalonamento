@@ -2,7 +2,8 @@
 	import { BarChart, defaultChartPadding } from 'layerchart';
     import { randomHexColor } from '../../utils/randomColor';
     import type { DataPoint, Processo } from '../../types';
-    import { cubicInOut } from 'svelte/easing';
+    import { cubicOut } from 'svelte/easing';
+    import { getXDomain, getYDomain } from '../../utils/procDataDomain';
 
     interface Props{
         data: Array<DataPoint>;
@@ -19,7 +20,8 @@
     let yDomain = $derived(getYDomain(data));
 
     // Calculando os ranges de dados que vão representar processos inativos,
-    // é meio que uma gambiarra mas funciona
+    // é meio que uma gambiarra mas funciona -> Uma opção que talvez fosse melhor 
+    // seria usar series e stackar elas: https://www.layerchart.com/docs/components/BarChart#grouped-and-stacked
     const inactive: Array<DisplayDataPoint> = $derived(
         procs.map((proc) =>{
             let end = proc.criacao;
@@ -56,16 +58,6 @@
         ))
     );
 
-    function getXDomain(data: Array<DataPoint>){
-        if(data.length == 0) return [0, 0];
-        return [
-            data.reduce((prev, cur) => prev.start<cur.start?prev:cur, data[0]).start,
-            data.reduce((prev, cur) => prev.end>cur.end?prev:cur, data[0]).end
-        ];
-    }
-    function getYDomain(data: Array<DataPoint>){
-        return data.map((point) => point.id);
-    }
 </script>
 
 <div>
@@ -78,7 +70,7 @@
         {yDomain}
         xNice={false}
         c="displayId"
-        cDomain={["inactive", ...getYDomain(data)]}
+        cDomain={["inactive", ...yDomain]}
         cRange={["#ffffff07", ...procs.map(() => randomHexColor(256, 128))]}
         grid={{ y: true, bandAlign: 'between' }}
         orientation="horizontal"
@@ -90,8 +82,10 @@
         padding={defaultChartPadding({ left: 30 })}
         height={400}
         props={{
+            labels:{
+            },
             bars:{
-                motion: { width: 'tween', duration: 1000, easing: cubicInOut }
+                motion: { width: { type: "tween", duration: 400, easing: cubicOut } }
             }
         }}
     >

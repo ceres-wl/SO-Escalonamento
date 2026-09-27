@@ -82,9 +82,24 @@
         {
             id: "P0",
             start: 13,
-            end: 14
+            end: 14,
+            current_prio: 2
         },
 	];
+
+    type Method = "FCFS" | "SJF" | "SRTF" | "PrioC" | "PrioP" | "RR" | "RR-P-E";
+    let methodSelected: Method = $state("FCFS");
+
+    let simulated = $state(false);
+
+    function handleSimulateMethod(){
+        simulated = true;
+    }
+
+    function handleCompare(){
+
+    }
+
 
 </script>
 
@@ -106,15 +121,37 @@
 
 <main>
     <div class="inputs">
-        <ConfigInput/>
+        <div>
+            <ConfigInput/>
+            <div class="common-div confirm">
+                <div>
+                    <select bind:value={methodSelected}>
+                        <option value="FCFS">First Come, First Served</option>
+                        <option value="SJF">Shortest Job First</option>
+                        <option value="SRTF">Shortest Remaining Time First</option>
+                        <option value="PrioC">Prioridade, sem preempção</option>
+                        <option value="PrioP">Prioridade, com preempção por prioridade</option>
+                        <option value="RR">Round-Robin, sem prioridade</option>
+                        <option value="RR-P-E">Round-Robin, com priodade e envelhecimento</option>
+                    </select>
+                    <button onclick={handleSimulateMethod}>Simular</button>
+                </div>
+                <button onclick={handleCompare}>Comparar métricas de todos os métodos</button>
+            </div>
+        </div>
         <ProcInput/>
     </div>
+    {#if simulated}
     <div class="visual">
         <ChartTest {data} procs={getProcessos()}/>
     </div>
+    {/if}
 </main>
 
 <style>
+    @import 'layerchart/core.css';
+    @import "./lib/components/commonDiv.css";
+
     main{
         width: 120ch;
         margin: 0 auto;
@@ -130,6 +167,14 @@
         display: flex;
         flex-direction: row;
         gap: 5px;
+    }
+
+    .visual{
+        background-color: var(--color-bg);
+    }
+
+    .confirm{
+        margin-top: 5px;
     }
 
     :global(html, body){
@@ -149,5 +194,6 @@
         --color-primary: whitesmoke;
         --color-secondary: lightgray;
         --color-accent: rgb(255, 106, 136);
+        --color-bg: white;
     }
 </style>

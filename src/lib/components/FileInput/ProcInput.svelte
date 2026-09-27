@@ -22,32 +22,41 @@
 </script>
 
 <!-- TODO dar um estilozinho pro header de cada processo e pro botão de remover -->
-
-<CommonFileInput label="Processos" handleFiles={handleProcFile}>
-    <button onclick={() => addProcesso({criacao: 0, duracao: 1, prioridade_estatica: 0})}>Adicionar processo</button>
-    {#each getProcessos() as process (process.id)}
-        <div class="process">
-            <header>{process.id}</header>
-            <div class="input">
-                <label for={`criacaoP${process.id}`}>Criação</label>
-                <input bind:value={process.criacao} id={`criacaoP${process.id}`} type="number">
+<div class="proc-wrapper">
+    <CommonFileInput handleFiles={handleProcFile}>
+        {#snippet label()}
+            <h2>Processos</h2>
+        {/snippet}
+    
+        <button onclick={() => addProcesso({criacao: 0, duracao: 1, prioridade_estatica: 0})}>Adicionar processo</button>
+        {#each getProcessos() as process (process.id)}
+            <div class="process">
+                <header>{process.id}</header>
+                <div class="input">
+                    <label for={`criacaoP${process.id}`}>Criação</label>
+                    <input bind:value={process.criacao} id={`criacaoP${process.id}`} type="number">
+                </div>
+                <div class="input">
+                    <label for={`duracaoP${process.id}`}>Duração</label>
+                    <input bind:value={process.duracao} id={`duracaoP${process.id}`} type="number">
+                </div>
+                <div class="input">
+                    <label for={`prioridadeP${process.id}`}>Prioridade</label>
+                    <input bind:value={process.prioridade_estatica} id={`prioridadeP${process.id}`} type="number">
+                </div>
+                <button onclick={() => removerProcesso(process.id)}>Remover</button>
             </div>
-            <div class="input">
-                <label for={`duracaoP${process.id}`}>Duração</label>
-                <input bind:value={process.duracao} id={`duracaoP${process.id}`} type="number">
-            </div>
-            <div class="input">
-                <label for={`prioridadeP${process.id}`}>Prioridade</label>
-                <input bind:value={process.prioridade_estatica} id={`prioridadeP${process.id}`} type="number">
-            </div>
-            <button onclick={() => removerProcesso(process.id)}>Remover</button>
-        </div>
-    {/each}
-</CommonFileInput>
+        {/each}
+    </CommonFileInput>
+</div>
 
 <style>
     button{
         margin-top: 0.5rem;
+    }
+
+    .proc-wrapper h2{
+        margin: 0.5rem 0;
     }
 
     .process{

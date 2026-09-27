@@ -20,7 +20,11 @@
     not fully a hack just not the prettiest code ever 
 -->
 <div class="config-wrapper">
-    <CommonFileInput label="Configuração" handleFiles={handleConfigFile}>
+    <CommonFileInput handleFiles={handleConfigFile}>
+        {#snippet label()}
+            <h2>Configuração</h2>
+        {/snippet}
+
         <div class="display">
             <label> Quantum
                 <input bind:value={config.quantum} type="number" name="quantum">
@@ -33,6 +37,10 @@
 </div>
 
 <style>
+    .config-wrapper h2{
+        margin: 0.5rem 0;
+    }
+
     .display{
         margin-top: 0.5rem;
 
