@@ -12,3 +12,9 @@ const Module = await createModule();
 export const get_procs = Module.get_procs;
 
 export const add_proc = Module.add_proc;
+
+export const set_config = Module.set_config;
+
+export const FCFS = Module.FCFS;
+
+export const clear_procs = Module.clear_procs;

@@ -4,10 +4,15 @@
 #include <fstream>
 #include <algorithm>
 #include <queue>
-// #include <emscripten/emscripten.h>
-// #include <emscripten/bind.h>
+#include <emscripten/emscripten.h>
+#include <emscripten/bind.h>
 
 using namespace std;
+
+struct ProcInput{
+    int id;
+    int inicio, duracao, prioridade_estatica;
+};
 
 //struct simulando cada processo e suas informações
 struct Proc {
@@ -29,52 +34,87 @@ struct Saida{
 };
 
 vector<Proc> procs = {};
+int quantum, aging;
+
+void printProcs(){
+    cout << "[ " << endl;
+    for(Proc proc : procs){
+        cout << "{ Id: P" << proc.id << "; inicio: " << proc.inicio << "; duracao: " << proc.duracao << " }" << endl;
+    }
+    cout << "]" << endl;
+}
 
 vector<Proc>* get_procs(){
     return &procs;
 }
 
-void add_proc(Proc proc){
+void clear_procs(){
+    procs.clear();
+}
+
+void add_proc(ProcInput proc_input){
+    Proc proc;
+
+    proc.id = proc_input.id;
+    proc.inicio = proc_input.inicio;
+    proc.duracao = proc_input.duracao;
+    proc.prioridade_estatica = proc_input.prioridade_estatica;
+    proc.prioridade_dinamica = proc_input.prioridade_estatica;
+
+    proc.status = "";
+    proc.tempo_espera = 0;
+    proc.tempo_restante = 0;
+    proc.tempo_vida = 0;
+
     procs.push_back(proc);
 }
 
-void ler_configuracao(int &quantum, int &aging){
-    ifstream arquivo("config.txt");
-    string linha;
-    while(getline(arquivo, linha)){
-        string atual, valor; //ver se é quantum ou aging, guardar o valor
-        bool separacao = 0;
-
-        //vai colocar em atual ate ver um ponto e virgula (:). Depois disso, coloca em valor
-        //no final, converte para inteiro e armazena na variavel correspondente
-        for(int i = 0 ; i < linha.size() ; i++){
-            if(linha[i] == ' ') continue;
-            if(linha[i] == ':') separacao = 1;
-            else if(!separacao) atual.push_back(linha[i]);
-            else valor.push_back(linha[i]); 
-        }
-        if(atual == "quantum") quantum = stoi(valor);
-        else if(atual == "aging") aging = stoi(valor);
-    }
+void set_config(int _aging, int _quantum){
+    quantum = _quantum;
+    aging = _aging;
 }
 
-void ler_processos(){
-    int data_criacao, tempo_execucao, prioridade_estatica;
-    int id = 1;
-    while(cin >> data_criacao >> tempo_execucao >> prioridade_estatica){
-        Proc p;
-        p.inicio = data_criacao; p.duracao = tempo_execucao;
-        p.prioridade_estatica = prioridade_estatica; p.prioridade_dinamica = prioridade_estatica;
-        p.id = id; p.status = "Pronto";
+// void ler_configuracao(int &quantum, int &aging){
+//     ifstream arquivo("config.txt");
+//     string linha;
+//     while(getline(arquivo, linha)){
+//         string atual, valor; //ver se é quantum ou aging, guardar o valor
+//         bool separacao = 0;
 
-        p.tempo_restante = tempo_execucao;
-        id++;
+//         //vai colocar em atual ate ver um ponto e virgula (:). Depois disso, coloca em valor
+//         //no final, converte para inteiro e armazena na variavel correspondente
+//         for(int i = 0 ; i < linha.size() ; i++){
+//             if(linha[i] == ' ') continue;
+//             if(linha[i] == ':') separacao = 1;
+//             else if(!separacao) atual.push_back(linha[i]);
+//             else valor.push_back(linha[i]); 
+//         }
+//         if(atual == "quantum") quantum = stoi(valor);
+//         else if(atual == "aging") aging = stoi(valor);
+//     }
+// }
 
-        add_proc(p);
-    }
-}
+// void ler_processos(){
+//     int data_criacao, tempo_execucao, prioridade_estatica;
+//     int id = 1;
+//     while(cin >> data_criacao >> tempo_execucao >> prioridade_estatica){
+//         Proc p;
+//         p.inicio = data_criacao; p.duracao = tempo_execucao;
+//         p.prioridade_estatica = prioridade_estatica; p.prioridade_dinamica = prioridade_estatica;
+//         p.id = id; p.status = "Pronto";
 
-Saida FCFS(vector<Proc> processos){
+//         p.tempo_restante = tempo_execucao;
+//         id++;
+
+//         add_proc(p);
+//     }
+// }
+
+Saida FCFS(){
+    // Adicionei isso aqui pra não mexer no resto do código todo,
+    // mas dá pra só mudar tudo pra procs
+    vector<Proc> processos = procs;
+
     //ordenar os processor por ordem de chegada
     sort(processos.begin(), processos.end(), [](Proc &a, Proc &b){
         if(a.inicio != b.inicio) return a.inicio < b.inicio;
@@ -134,29 +174,51 @@ Saida FCFS(vector<Proc> processos){
     return s;
 }
 
-int main(){
-    int quantum, aging;
-    ler_configuracao(quantum, aging);
+// int main(){
+//     int quantum, aging;
+//     ler_configuracao(quantum, aging);
 
-    ler_processos();
-    if(procs.size() == 0){
-        cout << "Nenhum processo recebido" << "\n";
-        return 0;
-    }
+//     ler_processos();
+//     if(procs.size() == 0){
+//         cout << "Nenhum processo recebido" << "\n";
+//         return 0;
+//     }
 
-    Saida s = FCFS(procs);
-    return 0;
-}
-
-// EMSCRIPTEN_BINDINGS(module){
-//     using namespace emscripten;
-//     function("get_procs", &get_procs, return_value_policy::reference());
-//     function("add_proc", &add_proc);
-
-//     value_object<Proc>("Proc")
-//         .field("inicio", &Proc::inicio)
-//         .field("duracao", &Proc::duracao)
-//         .field("prioridade_estatica", &Proc::prioridade_estatica);
-
-//     register_vector<Proc>("vector<Proc>");
+//     Saida s = FCFS(procs);
+//     return 0;
 // }
+
+EMSCRIPTEN_BINDINGS(module){
+    using namespace emscripten;
+    emscripten::function<vector<Proc>*>("get_procs", &get_procs, return_value_policy::reference());
+    emscripten::function<void>("add_proc", &add_proc);
+    emscripten::function<void>("clear_procs", &clear_procs);
+    emscripten::function<void>("set_config", &set_config);
+    emscripten::function<Saida>("FCFS", &FCFS);
+
+    value_object<Saida>("Saida")
+        .field("tt", &Saida::tt)
+        .field("tw", &Saida::tw)
+        .field("trocas_contexto", &Saida::trocas_contexto)
+        .field("diagrama_tempo", &Saida::diagrama_tempo);
+
+    value_object<ProcInput>("ProcInput")
+        .field("id", &ProcInput::id)
+        .field("inicio", &ProcInput::inicio)
+        .field("duracao", &ProcInput::duracao)
+        .field("prioridade_estatica", &ProcInput::prioridade_estatica);
+
+    value_object<Proc>("Proc")
+        .field("id", &Proc::id)
+        .field("inicio", &Proc::inicio)
+        .field("duracao", &Proc::duracao)
+        .field("prioridade_estatica", &Proc::prioridade_estatica)
+        .field("prioridade_dinamica", &Proc::prioridade_dinamica)
+        .field("status", &Proc::status)
+        .field("tempo_restante", &Proc::tempo_restante)
+        .field("tempo_espera", &Proc::tempo_espera)
+        .field("tempo_vida", &Proc::tempo_vida);
+
+    register_vector<Proc>("vector<Proc>");
+    register_vector<int>("vector<int>");
+}
