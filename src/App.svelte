@@ -1,5 +1,5 @@
 <script lang="ts">
-    import ChartTest from "./lib/components/charts/ChartTest.svelte";
+    import ProcSimulationChart from "./lib/components/charts/ProcSimulationChart.svelte";
     import ConfigInput from "./lib/components/FileInput/ConfigInput.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
     import { add_proc, get_procs } from "./lib/cpp/api/cppApi";
@@ -143,7 +143,7 @@
     </div>
     {#if simulated}
     <div class="visual">
-        <ChartTest {data} procs={getProcessos()}/>
+        <ProcSimulationChart {data} procs={getProcessos()}/>
     </div>
     {/if}
 </main>
