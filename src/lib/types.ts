@@ -26,3 +26,8 @@ export interface Metrics{
     waiting: number;
     num_change: number;
 }
+
+export type InfoToCopy = {
+    metricasStr: string;
+    diagramaStr: string;
+} | undefined;

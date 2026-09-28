@@ -1,17 +1,20 @@
 <script lang="ts">
     import { FCFS } from "../../cpp/api/cppApi";
+    import type { Saida } from "../../cpp/main.ts";
     import { getProcessos } from "../../listaProcesso.svelte";
-    import type { DataPoint, Metrics } from "../../types";
+    import type { DataPoint, InfoToCopy, Metrics } from "../../types";
     import { formatData } from "../../utils/formatData";
+    import { printTabela } from "../../utils/tabela";
 
     interface Props{
         simulated: boolean;
         metrics: Metrics
         data: Array<DataPoint>;
         delaySimul: number;
+        infoToCopy: InfoToCopy
     }
 
-    let { simulated = $bindable(), metrics = $bindable(), data = $bindable(), delaySimul = $bindable() }: Props = $props();
+    let { simulated = $bindable(), metrics = $bindable(), data = $bindable(), delaySimul = $bindable(), infoToCopy = $bindable() }: Props = $props();
 
     type Algorithm = "FCFS" | "SJF" | "SRTF" | "PrioC" | "PrioP" | "RR" | "RR-P-E";
     let algoSelected: Algorithm = $state("FCFS");
@@ -19,7 +22,7 @@
     function handleSimulateMethod(){
         if(getProcessos().length == 0) return;
 
-        let saida;
+        let saida: Saida | undefined;
         switch (algoSelected) {
             case "FCFS":
                 saida = FCFS();
@@ -34,6 +37,7 @@
                 saida = FCFS();
         }
 
+        infoToCopy = printTabela(saida, getProcessos());
         data = formatData(Array.from(saida.diagrama_tempo));
         metrics = {
             num_change: saida.trocas_contexto,

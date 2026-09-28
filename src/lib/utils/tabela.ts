@@ -1,38 +1,49 @@
-import type { DataPoint } from "../types";
-import { getYDomain } from "./procDataDomain";
+import type { Saida } from "../cpp/main";
+import type { DataPoint, Processo } from "../types";
 
-// Literalmente mais dificil que fazer a tabela gráfica isso aqui,
-// vai ficar pra depois
+export function printTabela(saida: Saida, procs: Array<Processo>){
+    const data: Array<number> = Array.from(saida.diagrama_tempo);
+    const procIds = new Set(data);
 
-// export function printTabelaDoTrinta(data: Array<DataPoint>){
-//     let domain = getYDomain(data);
-//     console.log("tempo " + domain.join(" "));
+    let metricasStr = 
+`tt: ${saida.tt}
+tw: ${saida.tw}
+trocas de contexto: ${saida.trocas_contexto}`;
+
+    let diagramaStr = "";
     
-//     let finish = false;
-//     let time = 0;
-//     while(!finish){
-//         let str = `${time}- ${time+1} `;
-        
-//         for(let proc of domain){
-//             let procPoints = data.filter((point) => proc == point.id);
+    const inactive: Array<DataPoint> = (
+        procs.map((proc) =>{
+            let end = proc.inicio;
+            let remaining = proc.duracao;
+            for(let i = 0; i < data.length; i++){
+                if(`P${data[i]}` == proc.id) remaining--;
+                if(remaining == 0){
+                    end = i+1;
+                    break;
+                }
+            }
 
-//             let end = 0;
-//             for(let point of procPoints){
-//                 if(point.end > end) end = point.end;
-//             }
+            return{
+                start: proc.inicio,
+                end,
+                id: proc.id
+            }
+        }));
 
-//             const point = procPoints.find((point) => point.)
+    diagramaStr += "tempo " + Array.from(procIds.values()).map((id) => `P${id}`).join(" ") + "\n";
+    for(let i = 0; i < data.length; i++){
+        diagramaStr += `${i}- ${i+1} ` + 
+            Array.from(procIds.values()).map((id) =>{
+                if(data[i] == id) return "##";
+                const inactiveData = inactive.find((proc) => proc.id == `P${id}`);
+                if(inactiveData && inactiveData.start <= i && i < inactiveData.end ) return "--";
+                return "  ";
+            })
+            .join(" ") + "\n";
+    }
 
-//             if(point.start >= time && point.end < time) {
-//                 str += "## ";
-//                 break;
-//             }
-//             if(point.start > time && ){
-
-//             }
-//         }
-
-//         console.log(str);
-//         time++;
-//     }
-// }
+    console.log(metricasStr);
+    console.log(diagramaStr);
+    return {diagramaStr, metricasStr};
+}

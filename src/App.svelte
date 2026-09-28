@@ -5,13 +5,19 @@
     import GenerateProcs from "./lib/components/FileInput/GenerateProcs.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
     import { getProcessos } from "./lib/listaProcesso.svelte";
-    import type { DataPoint, Metrics } from "./lib/types";
+    import type { DataPoint, InfoToCopy, Metrics } from "./lib/types";
 
     let data: Array<DataPoint> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
 
     let simulated = $state(false);
     let delaySimul = $state(500);
+
+    let infoToCopy: InfoToCopy = $state();
+
+    function copyToClipboard(str: string){
+        
+    }
 </script>
 
 <!-- Acessibilidade
@@ -21,8 +27,6 @@
 
 <!-- Estilo
     TODO estilizar as coisas, eu quero manter minimalista mas tá faltando mexer numas coisas
-        titulo da página
-        área de confirmar simualação
         rever cores
 -->
 
@@ -40,12 +44,16 @@
     <div class="inputs">
         <div>
             <ConfigInput/>
-            <ConfirmInput bind:metrics bind:simulated bind:data bind:delaySimul/>
+            <ConfirmInput bind:metrics bind:simulated bind:data bind:delaySimul bind:infoToCopy />
         </div>
         <ProcInput bind:simulated />
     </div>
     {#if simulated}
     <div class="visual">
+        <div>
+            <button onclick={() => infoToCopy && navigator.clipboard.writeText(infoToCopy.metricasStr) }>Copiar string com métricas</button>
+            <button onclick={() => infoToCopy && navigator.clipboard.writeText(infoToCopy.diagramaStr)}>Copiar string com diagrama de tempo de execução</button>
+        </div>
         <!-- TODO estilozinho melhor pra isso-->
         <p>TT: {metrics.turnaround} | TW: {metrics.waiting} | trocas de contexto: {metrics.num_change}</p>
         <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
