@@ -22,6 +22,8 @@
     "vite": "^8.3.0"
   },
   "dependencies": {
-    "layerchart": "^2.5.0"
+    "@iconify-json/fa-solid": "^1.2.2",
+    "layerchart": "^2.5.0",
+    "unplugin-icons": "^24.0.0"
   }
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { addProcesso } from '../../listaProcesso.svelte';
+    import CollapseDiv from '../collapseDiv/CollapseDiv.svelte';
 
     interface Props{
         simulated: boolean
@@ -38,31 +39,54 @@
 
 <!-- TODO ajeitar o estilo dessa coisa -->
 
-<form onsubmit={handleGerar} class="common-div generate">
-    <h2>Gerar processos aleatoriamente</h2>
-
-    {#snippet range(title: string, range: Range, min = 0)}
-    <div>
-        <p>{title}</p>
-        <label>Minimo
-            <input type="number" bind:value={range.min} {min} id={"generate"+title+"min"}>
-        </label>
-        <label>Máximo
-            <input type="number" bind:value={range.max} {min} id={"generate"+title+"max"}>
-        </label>
-    </div>
+<CollapseDiv>
+    {#snippet header()}
+        <h2>Gerar processos aleatoriamente</h2>
     {/snippet}
+    <form onsubmit={handleGerar}>
+        <button>Gerar</button>
+        <div>
+            {#snippet range(legend: string, range: Range, min = 0)}
+            <fieldset>
+                <legend>{legend}</legend>
+                <label>Minimo
+                    <input type="number" bind:value={range.min} {min} id={"generate"+legend+"min"}>
+                </label>
+                <label>Máximo
+                    <input type="number" bind:value={range.max} {min} id={"generate"+legend+"max"}>
+                </label>
+            </fieldset>
+            {/snippet}
+        
+            {@render range("Inicio", inicio)}
+            {@render range("Duração", duracao, 1)}
+            {@render range("Prioridade", prioridade)}
 
-    {@render range("Inicio", inicio)}
-    {@render range("Duração", duracao, 1)}
-    {@render range("Prioridade", prioridade)}
-    <label>Número de processos
-        <input type="number" bind:value={numeroProcs} min="1" id="generate-proc-num">
-    </label>
-
-    <button>Gerar</button>
-</form>
+            <fieldset>
+                <label>Número de processos
+                    <input type="number" bind:value={numeroProcs} min="1" id="generate-proc-num">
+                </label>
+            </fieldset>
+        
+        </div>
+    </form>
+</CollapseDiv>
 
 <style>
+    form{
+        & > div{
+            display: flex;
+            flex-wrap: wrap;
+        }
 
+        button{
+            margin: 0.5rem 0;
+
+            width: 50%;
+            max-width: 20rem;
+
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    }
 </style>

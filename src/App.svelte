@@ -99,4 +99,10 @@
         --color-accent: rgb(255, 106, 136);
         --color-bg: white;
     }
+
+    :global(button, input, select){
+        background-color: var(--color-accent);
+        border: 1px solid black;
+        color: white;
+    }
 </style>
