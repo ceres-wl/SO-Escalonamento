@@ -14,7 +14,32 @@ export const get_procs = Module.get_procs;
 export const add_proc = Module.add_proc;
 
 export const set_config = Module.set_config;
-
 export const FCFS = Module.FCFS;
+export const SJF = Module.SJF;
+
+/**
+ * NÃO ESTÁ COMPLETA!!!!!!
+ */
+export const SRTF = Module.SRTF;
+
+/**
+ * NÃO ESTÁ COMPLETA!!!!!!
+ */
+export const prio_c = Module.SRTF;
+
+/**
+ * NÃO ESTÁ COMPLETA!!!!!!
+ */
+export const prio_p = Module.SRTF;
+
+/**
+ * NÃO ESTÁ COMPLETA!!!!!!
+ */
+export const round_robin = Module.SRTF;
+
+/**
+ * NÃO ESTÁ COMPLETA!!!!!!
+ */
+export const round_robin_P_E = Module.SRTF;
 
 export const clear_procs = Module.clear_procs;

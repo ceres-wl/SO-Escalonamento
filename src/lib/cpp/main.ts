@@ -66,6 +66,8 @@ interface EmbindModule {
     new(): vector<int>;
   };
   FCFS(): Saida;
+  SJF(): Saida;
+  SRTF(): Saida;
 }
 
 export type MainModule = WasmModule & EmbindModule;

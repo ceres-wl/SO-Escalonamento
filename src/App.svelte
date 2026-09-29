@@ -6,7 +6,7 @@
     import ConfirmInput from "./lib/components/FileInput/ConfirmInput.svelte";
     import GenerateProcs from "./lib/components/FileInput/GenerateProcs.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
-    import { FCFS } from "./lib/cpp/api/cppApi";
+    import { FCFS, prio_c, prio_p, round_robin, round_robin_P_E, SJF, SRTF } from "./lib/cpp/api/cppApi";
     import type { Saida } from "./lib/cpp/main";
     import { getProcessos } from "./lib/context/listaProcesso.svelte";
     import type { Algo, DataPoint, InfoToCopy, Metrics } from "./lib/types";
@@ -28,6 +28,7 @@
 
     function handleSimulateMethod(e: SubmitEvent){
         e.preventDefault();
+        simulated = false;
 
         if(getProcessos().length == 0) {
             window.alert("Adicione um processo antes!");
@@ -40,11 +41,23 @@
                 saida = FCFS();
                 break;
             case "SJF":
+                saida = SJF();
+                break;
             case "SRTF":
+                saida = SRTF();
+                break;
             case "PrioC":
+                saida = prio_c();
+                break;
             case "PrioP":
+                saida = prio_p();
+                break;
             case "RR":
+                saida = round_robin();
+                break;
             case "RR-P-E":
+                saida = round_robin_P_E();
+                break;
             default:
                 saida = FCFS();
         }

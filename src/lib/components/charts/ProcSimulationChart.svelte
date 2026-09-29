@@ -5,6 +5,7 @@
     import { cubicOut } from 'svelte/easing';
     import { getXDomain, getYDomain } from '../../utils/procDataDomain';
     import BigButton from '../form/bigButton.svelte';
+    import { getDisableAnimation } from '../../context/disableAnimation';
 
     interface Props{
         data: Array<DataPoint>;
@@ -47,7 +48,7 @@
     
     function setupAutoSimulation(delay: number){
         clearInterval(interval);
-        if(delay == 0){
+        if(delay == 0 || getDisableAnimation()()){
             time = Infinity;
             return;
         }

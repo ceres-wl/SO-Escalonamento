@@ -229,6 +229,8 @@ EMSCRIPTEN_BINDINGS(module){
     emscripten::function<void>("clear_procs", &clear_procs);
     emscripten::function<void>("set_config", &set_config);
     emscripten::function<Saida>("FCFS", &FCFS);
+    emscripten::function<Saida>("SJF", &ShortestJobFirst);
+    emscripten::function<Saida>("SRTF", &ShortestRemainingTimeFirst);
 
     value_object<Saida>("Saida")
         .field("tt", &Saida::tt)
