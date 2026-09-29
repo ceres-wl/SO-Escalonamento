@@ -24,8 +24,12 @@ export function addProcesso(proc: ProcessoInput){
     listaProcesso.push(procFinal);
 }
 
-export function updateProcesso(procId: string, proc: Processo){
-    listaProcesso[listaProcesso.findIndex((proc) => proc.id = procId)] = proc;
+export function updateProcesso(procId: string, inicio: number, duracao: number, prio: number){
+    const proc = listaProcesso[listaProcesso.findIndex((proc) => proc.id == procId)];
+    console.log(proc);
+    proc.inicio = inicio;
+    proc.duracao = duracao;
+    proc.prioridade_estatica = prio;
     syncProcesses();
 }
 

@@ -29,7 +29,7 @@
     }
 
     function updateProc(process: Processo){
-        updateProcesso(process.id, process);
+        updateProcesso(process.id, process.inicio, process.duracao, process.prioridade_estatica);
         simulated = false;
     }
 </script>
@@ -48,7 +48,7 @@
         </form>
         <div class="procs">
             {#each getProcessos() as process (process.id)}
-                <form onsubmit={(e) => e.preventDefault()} class="process">
+                <div class="process">
                     <header>{process.id}</header>
                     <div class="input">
                         <label for={`inicio${process.id}`}>Início:</label>
@@ -65,8 +65,10 @@
                         <input id={`prioridadeP${process.id}`} type="number"
                         bind:value={() => process.prioridade_estatica, (newVal) => updateProc({...process, prioridade_estatica: newVal})}>
                     </div>
-                    <button aria-label="Remover processo" onclick={() => {removeProcesso(process.id); simulated = false}}><Times/></button>
-                </form>
+                    <form onsubmit={(e) => e.preventDefault()}>
+                        <button aria-label="Remover processo" onclick={() => {removeProcesso(process.id); simulated = false}}><Times/></button>
+                    </form>
+                </div>
             {/each}
         </div>
     </CommonFileInput>
