@@ -4,6 +4,7 @@
     import type { DataPoint, Processo } from '../../types';
     import { cubicOut } from 'svelte/easing';
     import { getXDomain, getYDomain } from '../../utils/procDataDomain';
+    import BigButton from '../form/bigButton.svelte';
 
     interface Props{
         data: Array<DataPoint>;
@@ -39,19 +40,24 @@
             }
         }));
     
-    let automaticSimulation = $state(true);
-    let disableSimulationCheckbox = $state(false);
+    // let automaticSimulation = $state(true);
+    // let disableSimulationCheckbox = $state(false);
     let time = $state(0);
     let interval = 0;
     
     function setupAutoSimulation(delay: number){
         clearInterval(interval);
+        if(delay == 0){
+            time = Infinity;
+            return;
+        }
+        
         interval = setInterval(() => {
             time++;
             if(time >= data.length){
                 clearInterval(interval);
-                automaticSimulation = false;
-                disableSimulationCheckbox = true;
+                // automaticSimulation = false;
+                // disableSimulationCheckbox = true;
             };
         }, delay);
     }
@@ -76,8 +82,9 @@
 
 </script>
 
-<div>
-    <label> Simular automaticamente
+<div class="main">
+    <!-- Ficou confusa essa feature, resolvi tirar -->
+    <!-- <label> Simular automaticamente 
         <input type="checkbox" disabled={disableSimulationCheckbox} bind:checked={automaticSimulation} onclick={(e) =>{
             if(automaticSimulation){
                 clearInterval(interval);
@@ -85,10 +92,15 @@
             }
             setupAutoSimulation(delaySimul);
         }}>
-    </label>
-    <button onclick={() => {time=0; disableSimulationCheckbox = false}}>Resetar</button>
-    <button onclick={() => time=Infinity}>Completar</button>
-    <BarChart 
+    </label> -->
+    <header>
+        <h2>Diagrama de tempo da execução</h2>
+        <div class="controls">
+            <BigButton onclick={() => {time=0; /*disableSimulationCheckbox = false*/}}>Resetar</BigButton>
+            <BigButton onclick={() => time=Infinity}>Completar</BigButton>
+        </div>
+    </header>
+    <BarChart class="chart"
         data={displayData}
         x={['start', 'end']}
         y="id"
@@ -97,7 +109,7 @@
         {yDomain}
         xNice={false}
         c="displayId"
-        cDomain={["inactive", "CPU Ociosa", ...yDomain]}
+        cDomain={["inactive", "Nenhum", ...yDomain]}
         cRange={["#ffffff07", "#000000", ...procs.map(() => randomHexColor(256, 128))]}
         grid={{ y: true, bandAlign: 'between' }}
         orientation="horizontal"
@@ -115,6 +127,30 @@
                 motion: { width: { type: "tween", duration: 400, easing: cubicOut } }
             }
         }}
+        // transform={{ mode: 'domain' }}
     >
     </BarChart>
 </div>
+
+<style>
+    .main > header{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        h2{
+            font-size: 3rem;
+            margin: 0;
+        }
+    }
+
+    .controls{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+
+        gap: 0.5rem;
+    }
+</style>

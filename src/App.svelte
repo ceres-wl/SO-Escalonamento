@@ -1,22 +1,62 @@
 <script lang="ts">
+    import { slide } from "svelte/transition";
+    import MetricsArea from "./lib/components/charts/MetricsArea.svelte";
     import ProcSimulationChart from "./lib/components/charts/ProcSimulationChart.svelte";
     import ConfigInput from "./lib/components/FileInput/ConfigInput.svelte";
     import ConfirmInput from "./lib/components/FileInput/ConfirmInput.svelte";
     import GenerateProcs from "./lib/components/FileInput/GenerateProcs.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
-    import { getProcessos } from "./lib/listaProcesso.svelte";
-    import type { DataPoint, InfoToCopy, Metrics } from "./lib/types";
+    import { FCFS } from "./lib/cpp/api/cppApi";
+    import type { Saida } from "./lib/cpp/main";
+    import { getProcessos } from "./lib/context/listaProcesso.svelte";
+    import type { Algo, DataPoint, InfoToCopy, Metrics } from "./lib/types";
+    import { formatData } from "./lib/utils/formatData";
+    import { printTabela } from "./lib/utils/tabela";
+    import { getDisableAnimation, setDisableAnimation } from "./lib/context/disableAnimation";
 
     let data: Array<DataPoint> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
 
     let simulated = $state(false);
     let delaySimul = $state(500);
+    let algoSelected: Algo = $state("FCFS");
+
+    let disableAnimation = $state(false);
+    setDisableAnimation(() => disableAnimation);
 
     let infoToCopy: InfoToCopy = $state();
 
-    function copyToClipboard(str: string){
-        
+    function handleSimulateMethod(e: SubmitEvent){
+        e.preventDefault();
+
+        if(getProcessos().length == 0) {
+            window.alert("Adicione um processo antes!");
+            return;
+        };
+
+        let saida: Saida | undefined;
+        switch (algoSelected) {
+            case "FCFS":
+                saida = FCFS();
+                break;
+            case "SJF":
+            case "SRTF":
+            case "PrioC":
+            case "PrioP":
+            case "RR":
+            case "RR-P-E":
+            default:
+                saida = FCFS();
+        }
+
+        infoToCopy = printTabela(saida, getProcessos());
+        data = formatData(Array.from(saida.diagrama_tempo));
+        metrics = {
+            num_change: saida.trocas_contexto,
+            turnaround: saida.tt,
+            waiting: saida.tw
+        };
+        simulated = true;
     }
 </script>
 
@@ -39,23 +79,25 @@
 -->
 
 <main>
-    <h1>Simulação de escalonamento</h1>
-    <GenerateProcs bind:simulated />
-    <div class="inputs">
-        <div>
-            <ConfigInput/>
-            <ConfirmInput bind:metrics bind:simulated bind:data bind:delaySimul bind:infoToCopy />
-        </div>
-        <ProcInput bind:simulated />
+    <div class="header">
+        <h1>Simulação de escalonamento</h1>
+        
+        <label> Desativar animações
+            <input type="checkbox" bind:checked={disableAnimation} >
+        </label>
     </div>
-    {#if simulated}
-    <div class="visual">
-        <div>
-            <button onclick={() => infoToCopy && navigator.clipboard.writeText(infoToCopy.metricasStr) }>Copiar string com métricas</button>
-            <button onclick={() => infoToCopy && navigator.clipboard.writeText(infoToCopy.diagramaStr)}>Copiar string com diagrama de tempo de execução</button>
+    <GenerateProcs bind:simulated />
+    <form onsubmit={handleSimulateMethod} class="inputs">
+        <div class="flex-row">
+            <ConfigInput/>
+            <ProcInput bind:simulated />
         </div>
-        <!-- TODO estilozinho melhor pra isso-->
-        <p>TT: {metrics.turnaround} | TW: {metrics.waiting} | trocas de contexto: {metrics.num_change}</p>
+        <ConfirmInput {handleSimulateMethod} bind:delaySimul bind:algoSelected />
+    </form>
+    {#if simulated}
+    <div transition:slide={{duration: getDisableAnimation()()?0:500}} class="visual common-div">
+        <MetricsArea {metrics} {infoToCopy} />
+        <hr>
         <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
     </div>
     {/if}
@@ -66,7 +108,7 @@
     @import "./lib/components/commonDiv.css";
 
     main{
-        width: 120ch;
+        max-width: 120ch;
         margin: 0 auto;
 
         display: flex;
@@ -76,16 +118,24 @@
         padding: 5px;
     }
 
+    .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        color: white;
+    }
+
     .inputs{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .flex-row{
         display: flex;
         flex-direction: row;
         gap: 5px;
-
-        height: 40vh;
-    }
-
-    .visual{
-        background-color: var(--color-bg);
     }
 
     :global(html, body){
@@ -93,7 +143,7 @@
     }
 
     :global(body){
-        background-color: aquamarine;
+        background-color: rgb(20, 92, 68);
     }
 
     :global(*){
@@ -103,14 +153,38 @@
     :global(:root){
         /* TODO decidir cores */
         --color-primary: whitesmoke;
-        --color-secondary: lightgray;
+        --color-secondary: rgb(235, 235, 235);
         --color-accent: rgb(255, 106, 136);
         --color-bg: white;
+
+        --color-input-bg: rgb(255, 106, 136);
+        --color-input-bg-hover: rgb(155, 65, 83);
     }
 
     :global(button, input, select){
-        background-color: var(--color-accent);
+        background-color: var(--color-input-bg);
         border: 1px solid black;
         color: white;
+
+        text-align: center;
+    }
+
+    :global(button){
+        background-color: var(--color-input-bg);  
+        cursor: pointer;
+
+        &:hover{
+            background-color: var(--color-input-bg-hover);
+        }
+    }
+
+    :global(input[type=number]){
+        font-size: 1rem;
+        max-width: 10ch;
+    }
+
+    :global(h1, h2, h3){
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-variant: small-caps;
     }
 </style>

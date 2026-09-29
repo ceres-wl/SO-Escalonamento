@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { addProcesso } from '../../listaProcesso.svelte';
+    import { addProcesso } from '../../context/listaProcesso.svelte';
     import CollapseDiv from '../collapseDiv/CollapseDiv.svelte';
+    import BigButton from '../form/bigButton.svelte';
 
     interface Props{
         simulated: boolean
@@ -44,7 +45,7 @@
         <h2>Gerar processos aleatoriamente</h2>
     {/snippet}
     <form onsubmit={handleGerar}>
-        <button>Gerar</button>
+        <BigButton onclick={() =>{}}>Gerar</BigButton>
         <div>
             {#snippet range(legend: string, range: Range, min = 0)}
             <fieldset>
@@ -63,9 +64,10 @@
             {@render range("Prioridade", prioridade)}
 
             <fieldset>
-                <label>Número de processos
-                    <input type="number" bind:value={numeroProcs} min="1" id="generate-proc-num">
-                </label>
+                <legend>
+                    <label for="generate-proc-num">Número de processos gerados</label>
+                </legend>
+                <input type="number" bind:value={numeroProcs} min="1" id="generate-proc-num">
             </fieldset>
         
         </div>
@@ -77,16 +79,13 @@
         & > div{
             display: flex;
             flex-wrap: wrap;
-        }
 
-        button{
-            margin: 0.5rem 0;
+            align-items: center;
+            justify-content: space-between;
 
-            width: 50%;
-            max-width: 20rem;
-
-            font-size: 1.5rem;
-            font-weight: bold;
+            fieldset{
+                min-width: 49%;
+            }
         }
     }
 </style>

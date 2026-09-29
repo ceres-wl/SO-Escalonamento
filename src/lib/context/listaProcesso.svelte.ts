@@ -1,5 +1,5 @@
-import { add_proc, clear_procs } from "./cpp/api/cppApi";
-import type { Processo, ProcessoInput } from "./types";
+import { add_proc, clear_procs } from "../cpp/api/cppApi";
+import type { Processo, ProcessoInput } from "../types";
 
 // Módulo que contém a lista de de processos e seus métodos
 

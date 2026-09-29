@@ -1,5 +1,6 @@
 <script lang="ts">
-    // import FileUpload from '~icons/fa-solid/file-upload';
+    import FileUpload from '~icons/fa-solid/file-upload';
+    import FileImport from '~icons/fa-solid/file-import';
 
     let dragging = $state(false);
     let dragCounter = 0;
@@ -32,11 +33,15 @@
 <div class="dragzone" ondragover={handleDragOver} ondragenter={handleDragIn} ondragleave={handleDragOut} ondrop={handleDrop} role="button" tabindex="0">
     <label>
         {#if dragging}
-            <!-- <FileUpload class="icon-insc" height="1em" width="1em"/> -->
+        <FileImport class="icon-insc" height="1rem" width="1rem"/>
+        {:else}
+        <FileUpload class="icon-insc" height="1rem" width="1rem"/>
+        {/if}
+        <!-- {#if dragging}
             <p>Solte para fazer o upload</p>
         {:else}
             <p>Escolha um arquivo ou arraste para essa região</p>
-        {/if}
+        {/if} -->
         <div class="center">
             <input id="file-select" type="file" onchange={(e) => {
                 const target = e.target as HTMLInputElement;
@@ -55,8 +60,8 @@
     }
 
     :global(.icon-insc){
-        width: 4rem;
-        height: 4rem;
+        width: 3rem;
+        height: 3rem;
     }
 
     label{

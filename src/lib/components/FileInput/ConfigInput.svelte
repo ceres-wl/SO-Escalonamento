@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { config, setConfig } from "../../config.svelte";
+    import { config, setConfig } from "../../context/config.svelte.js";
     import CommonFileInput from "./CommonFileInput.svelte";
 
     async function handleConfigFile(files: FileList){

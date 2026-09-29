@@ -12,8 +12,8 @@ export function formatData(data: Array<number>){
         formated.push({
             start,
             end: i,
-            id: data[i-1] == -1?"CPU Ociosa":`P${data[i-1]}`,
-            current_prio: 5 // TODO paulo tem que passar a prioridade no tempo respectivo pra conseguir mostrar aqui
+            id: data[i-1] == -1?"Nenhum":`P${data[i-1]}`,
+            current_prio: undefined // TODO paulo tem que passar a prioridade no tempo respectivo pra conseguir mostrar aqui
         })
         start = i;
         lastProc = data[i];

@@ -31,3 +31,5 @@ export type InfoToCopy = {
     metricasStr: string;
     diagramaStr: string;
 } | undefined;
+
+export type Algo = "FCFS" | "SJF" | "SRTF" | "PrioC" | "PrioP" | "RR" | "RR-P-E";
