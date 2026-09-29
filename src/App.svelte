@@ -101,7 +101,7 @@
     </div>
     <GenerateProcs bind:simulated />
     <form onsubmit={handleSimulateMethod} class="inputs">
-        <div class="flex-row">
+        <div class="flex-row-responsive">
             <ConfigInput/>
             <ProcInput bind:simulated />
         </div>
@@ -145,10 +145,14 @@
         gap: 5px;
     }
 
-    .flex-row{
+    .flex-row-responsive{
         display: flex;
         flex-direction: row;
         gap: 5px;
+
+        @media screen and (max-width: 48em) {
+            flex-direction: column;
+        }
     }
 
     :global(html, body){

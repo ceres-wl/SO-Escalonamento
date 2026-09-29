@@ -83,7 +83,7 @@
 
 </script>
 
-<div class="main">
+<div class="chart-div">
     <!-- Ficou confusa essa feature, resolvi tirar -->
     <!-- <label> Simular automaticamente 
         <input type="checkbox" disabled={disableSimulationCheckbox} bind:checked={automaticSimulation} onclick={(e) =>{
@@ -134,16 +134,7 @@
 </div>
 
 <style>
-    .main > header{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-
-        h2{
-            font-size: 3rem;
-            margin: 0;
-        }
-    }
+    @import "/src/lib/components/charts/chartsDiv.css";
 
     .controls{
         display: flex;

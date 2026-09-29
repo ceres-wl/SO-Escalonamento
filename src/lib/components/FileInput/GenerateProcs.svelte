@@ -50,12 +50,16 @@
             {#snippet range(legend: string, range: Range, min = 0)}
             <fieldset>
                 <legend>{legend}</legend>
-                <label>Minimo
-                    <input type="number" bind:value={range.min} {min} id={"generate"+legend+"min"}>
-                </label>
-                <label>Máximo
-                    <input type="number" bind:value={range.max} {min} id={"generate"+legend+"max"}>
-                </label>
+                <div>
+                    <label>Minimo
+                        <input type="number" bind:value={range.min} {min} id={"generate"+legend+"min"}>
+                    </label>
+                </div>
+                <div>
+                    <label>Máximo
+                        <input type="number" bind:value={range.max} {min} id={"generate"+legend+"max"}>
+                    </label>
+                </div>
             </fieldset>
             {/snippet}
         
@@ -82,10 +86,16 @@
 
             align-items: center;
             justify-content: space-between;
+        }
+    }
 
-            fieldset{
-                min-width: 49%;
-            }
+    fieldset{
+        min-width: 49%;
+    }
+
+    @media screen and (max-width: 48em){
+        fieldset{
+            width: 100%;
         }
     }
 </style>

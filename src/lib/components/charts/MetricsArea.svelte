@@ -11,7 +11,7 @@
 </script>
 
 <!-- TODO estilozinho melhor pra isso-->
-<section class="main">
+<section class="chart-div">
     <header>
         <h2>Métricas</h2>
         <div class="copy">
@@ -35,20 +35,12 @@
 </section>
 
 <style>
-    .main > header{
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-
-        h2{
-            font-size: 3rem;
-            margin: 0;
-        }
-    }
+    @import "/src/lib/components/charts/chartsDiv.css";
 
     .copy{
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 5px;
     }
 
