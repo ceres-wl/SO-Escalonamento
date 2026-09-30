@@ -1,4 +1,4 @@
-import createModule from "../build/main.js";
+import createModule from "./build/Scheduler_wasm";
 
 // Teoricamente esperar essa promise desse jeito assim que o módulo carrega vai atrasar
 // o carregamento de qualquer componente que queira usar uma dessas funções, de forma desnecessária,
@@ -16,30 +16,10 @@ export const add_proc = Module.add_proc;
 export const set_config = Module.set_config;
 export const FCFS = Module.FCFS;
 export const SJF = Module.SJF;
-
-/**
- * NÃO ESTÁ COMPLETA!!!!!!
- */
 export const SRTF = Module.SRTF;
-
-/**
- * NÃO ESTÁ COMPLETA!!!!!!
- */
-export const prio_c = Module.SRTF;
-
-/**
- * NÃO ESTÁ COMPLETA!!!!!!
- */
-export const prio_p = Module.SRTF;
-
-/**
- * NÃO ESTÁ COMPLETA!!!!!!
- */
-export const round_robin = Module.SRTF;
-
-/**
- * NÃO ESTÁ COMPLETA!!!!!!
- */
-export const round_robin_P_E = Module.SRTF;
+export const prio_c = Module.prio_c;
+export const prio_p = Module.prio_p;
+export const round_robin = Module.round_robin;
+export const round_robin_aging = Module.round_robin_aging;
 
 export const clear_procs = Module.clear_procs;

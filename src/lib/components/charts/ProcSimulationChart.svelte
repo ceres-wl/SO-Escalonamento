@@ -20,7 +20,7 @@
     const { data, procs, delaySimul = 500 }: Props = $props();
 
     let xDomain = $derived(getXDomain(data));
-    let yDomain = $derived(getYDomain(data));
+    let yDomain = $derived(getYDomain(data).sort());
 
     // Calculando os ranges de dados que vão representar processos inativos,
     // é meio que uma gambiarra mas funciona -> Uma opção que talvez fosse melhor 
@@ -64,7 +64,7 @@
     }
 
     $effect(() =>{
-        setupAutoSimulation(delaySimul);
+        setupAutoSimulation(3000/data.length);
     })
 
     // Processando os dados pra dar display

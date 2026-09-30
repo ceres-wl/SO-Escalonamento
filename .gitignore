@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src/lib/cpp/build
+src/lib/cpp/api/build

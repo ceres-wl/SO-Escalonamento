@@ -2,6 +2,12 @@
     import { config, setConfig } from "../../context/config.svelte.js";
     import CommonFileInput from "./CommonFileInput.svelte";
 
+    interface Props{
+        simulated: boolean;
+    }
+
+    let { simulated = $bindable() }: Props = $props();
+
     async function handleConfigFile(files: FileList){
         if(!files || !files[0]) return;
         const txt = await files[0].text();
@@ -27,10 +33,10 @@
 
         <div class="display">
             <label> Quantum
-                <input bind:value={config.quantum} type="number" name="quantum">
+                <input bind:value={() => config.quantum, (val) => setConfig(config.aging, val)} type="number" name="quantum">
             </label>
             <label> Aging
-                <input bind:value={config.aging} type="number" name="aging">
+                <input bind:value={() => config.aging, (val) => setConfig(val, config.aging)} type="number" name="aging">
             </label>
         </div>
     </CommonFileInput>

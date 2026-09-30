@@ -1,4 +1,5 @@
-import type { Saida } from "../cpp/main";
+
+import type { Saida } from "../cpp/api/build/Scheduler_wasm.ts";
 import type { DataPoint, Processo } from "../types";
 
 export function printTabela(saida: Saida, procs: Array<Processo>){
@@ -31,10 +32,10 @@ trocas de contexto: ${saida.trocas_contexto}`;
             }
         }));
 
-    diagramaStr += "tempo " + Array.from(procIds.values()).map((id) => `P${id}`).join(" ") + "\n";
+    diagramaStr += "tempo " + Array.from(procIds.values()).sort().map((id) => `P${id}`).join(" ") + "\n";
     for(let i = 0; i < data.length; i++){
         diagramaStr += `${i}- ${i+1} ` + 
-            Array.from(procIds.values()).map((id) =>{
+            Array.from(procIds.values()).sort().map((id) =>{
                 if(data[i] == id) return "##";
                 const inactiveData = inactive.find((proc) => proc.id == `P${id}`);
                 if(inactiveData && inactiveData.start <= i && i < inactiveData.end ) return "--";

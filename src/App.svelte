@@ -6,13 +6,13 @@
     import ConfirmInput from "./lib/components/FileInput/ConfirmInput.svelte";
     import GenerateProcs from "./lib/components/FileInput/GenerateProcs.svelte";
     import ProcInput from "./lib/components/FileInput/ProcInput.svelte";
-    import { FCFS, prio_c, prio_p, round_robin, round_robin_P_E, SJF, SRTF } from "./lib/cpp/api/cppApi";
-    import type { Saida } from "./lib/cpp/main";
+    import { FCFS, prio_c, prio_p, round_robin, round_robin_aging, SJF, SRTF } from "./lib/cpp/api/cppApi";
     import { getProcessos } from "./lib/context/listaProcesso.svelte";
     import type { Algo, DataPoint, InfoToCopy, Metrics } from "./lib/types";
     import { formatData } from "./lib/utils/formatData";
     import { printTabela } from "./lib/utils/tabela";
     import { getDisableAnimation, setDisableAnimation } from "./lib/context/disableAnimation";
+    import type { Saida } from "./lib/cpp/api/build/Scheduler_wasm.ts";
 
     let data: Array<DataPoint> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
@@ -56,7 +56,7 @@
                 saida = round_robin();
                 break;
             case "RR-P-E":
-                saida = round_robin_P_E();
+                saida = round_robin_aging();
                 break;
             default:
                 saida = FCFS();
@@ -102,10 +102,13 @@
     <GenerateProcs bind:simulated />
     <form onsubmit={handleSimulateMethod} class="inputs">
         <div class="flex-row-responsive">
-            <ConfigInput/>
+            <ConfigInput bind:simulated/>
             <ProcInput bind:simulated />
         </div>
-        <ConfirmInput {handleSimulateMethod} bind:delaySimul bind:algoSelected />
+        <ConfirmInput {handleSimulateMethod} bind:delaySimul bind:algoSelected={() => algoSelected, (val) =>{
+            simulated = false;
+            algoSelected = val;
+        }} />
     </form>
     {#if simulated}
     <div transition:slide={{duration: getDisableAnimation()()?0:500}} class="visual common-div">

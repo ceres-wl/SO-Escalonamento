@@ -19,7 +19,6 @@ struct Saida{
     std::vector<int> diagrama_tempo; //cada posição indica o tempo e o valor guardado indica o id do processo
     //ex: diagrama_tempo[1] = 3 -> no tempo 1-2, o processo de id 3 estava executando
     //diagrama_tempo[0] = -1 -> no tempo 0-1, nenhum processo estava executando
-    std::vector<int> prioridades_dinamicas;
 };
 
 #endif // SO_ESTRUTURAS_H
