@@ -13,6 +13,8 @@
     import { printTabela } from "./lib/utils/tabela";
     import { getDisableAnimation, setDisableAnimation } from "./lib/context/disableAnimation";
     import type { Saida } from "./lib/cpp/api/build/Scheduler_wasm";
+    import SchedulingIcon from './assets/scheduling_nobg.webp';
+    import External from '~icons/fa-solid/external-link-alt'
 
     let data: Array<DataPoint> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
@@ -83,7 +85,10 @@
 
 <main>
     <div class="header">
-        <h1>Simulação de escalonamento</h1>
+        <div class="flex-center">
+            <img class="pixelated" src={SchedulingIcon} alt="Icone de temporizador">
+            <h1>Simulação de escalonamento</h1>
+        </div>
         
         <label> Desativar animações
             <input type="checkbox" bind:checked={disableAnimation} >
@@ -107,6 +112,12 @@
         <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
     </div>
     {/if}
+    <footer>
+        <p>
+            Projeto criado para a cadeira de Sistemas Operacionais da UFC
+        </p>
+        <p><a target="_blank" href="https://github.com/ceres-wl/SO-Escalonamento">Link para o Repositório <External/></a></p>
+    </footer>
 </main>
 
 <style>
@@ -124,12 +135,41 @@
         padding: 5px;
     }
 
+    footer{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        background-color: var(--color-primary);
+
+        font-weight: bold;
+
+        a{
+            text-decoration: none;
+
+            &:hover{
+                text-decoration: underline dotted;
+            }
+        }
+
+        padding: 0.5rem;
+    }
+
     .header{
         display: flex;
         align-items: center;
         justify-content: space-between;
 
         color: white;
+
+        h1{
+            display: inline;
+            font-size: 2rem;
+        }
+        img{
+            height: 4rem;
+            display: inline;
+        }
     }
 
     .inputs{
@@ -196,5 +236,15 @@
     :global(h1, h2, h3){
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         font-variant: small-caps;
+    }
+
+    :global(.flex-center){
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    :global(.pixelated){
+        image-rendering: pixelated;
     }
 </style>

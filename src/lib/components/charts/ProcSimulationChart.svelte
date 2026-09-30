@@ -121,7 +121,7 @@
             placement: 'center',
             fill: 'white'
         }}
-        padding={defaultChartPadding({ left: 30 })}
+        padding={defaultChartPadding({ left: 50 })}
         height={400}
         props={{
             labels:{
