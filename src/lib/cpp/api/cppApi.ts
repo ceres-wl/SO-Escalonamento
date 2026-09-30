@@ -1,4 +1,4 @@
-import createModule from "../main.js";
+import createModule from "../build/main.js";
 
 // Teoricamente esperar essa promise desse jeito assim que o módulo carrega vai atrasar
 // o carregamento de qualquer componente que queira usar uma dessas funções, de forma desnecessária,

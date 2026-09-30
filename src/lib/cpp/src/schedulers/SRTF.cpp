@@ -2,7 +2,13 @@
 
 using namespace std;
 
-Saida RoundRobin(vector<Proc> processos){
+struct ComparadorSRTF{
+    bool operator()(const Proc &a, const Proc &b){
+        if(a.tempo_restante != b.tempo_restante) return a.tempo_restante > b.tempo_restante;
+        return a.id > b.id;
+    }
+};
+Saida ShortestRemainingTimeFirst(vector<Proc> processos, int quantum, int aging){
     int n = processos.size();
 
     //ordenar os processor por ordem de chegada
@@ -12,7 +18,7 @@ Saida RoundRobin(vector<Proc> processos){
         return a.id < b.id;
     });
 
-    queue<Proc> prontos;
+    priority_queue<Proc, vector<Proc>, ComparadorSRTF> prontos;
 
     int tempo_atual = 0, trocas = 0, id_anterior = -1;
     vector<int> diagrama;
@@ -34,25 +40,27 @@ Saida RoundRobin(vector<Proc> processos){
             continue;
         }
 
-        Proc atual = prontos.front(); prontos.pop();
+        Proc atual = prontos.top(); prontos.pop();
 
         //troca de contexto
         if(id_anterior != -1 && id_anterior != atual.id) trocas++;
         id_anterior = atual.id;
 
         //processamento do atual
-        int iteracao_atual = 0;
-        while(atual.tempo_restante > 0 && iteracao_atual < quantum){
+        while(atual.tempo_restante > 0){
             diagrama.push_back(atual.id);
             tempo_atual++;
             atual.tempo_restante--;
             
-            //ver se chegou alguem
+            //verificar se chegou algum processo com tempo restante menor
             while(prox < processos.size() && processos[prox].inicio <= tempo_atual){
                 prontos.push(processos[prox]);
                 prox++;
             }
-            iteracao_atual++;
+            if(!prontos.empty() && prontos.top().tempo_restante < atual.tempo_restante){
+                prontos.push(atual);
+                break;
+            }
         }
         //so calcula as metricas se terminou
         if(atual.tempo_restante == 0){
@@ -62,9 +70,6 @@ Saida RoundRobin(vector<Proc> processos){
             tw_total += atual.tempo_espera;
             tt_total += atual.tempo_vida;
             concluidos++;
-        }
-        else{
-            prontos.push(atual);
         }
     }
     Saida s = formatar_saida(processos.size(), tt_total, tw_total, trocas, diagrama);

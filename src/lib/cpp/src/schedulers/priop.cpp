@@ -2,13 +2,17 @@
 
 using namespace std;
 
-struct ComparadorSJF{
+struct ComparadorPRIO{
     bool operator()(const Proc &a, const Proc &b){
-        if(a.duracao != b.duracao) return a.duracao > b.duracao;
+        if(a.prioridade_estatica != b.prioridade_estatica) return a.prioridade_estatica < b.prioridade_estatica;
+        if(a.tempo_restante != b.tempo_restante) return a.tempo_restante > b.tempo_restante;
         return a.id > b.id;
     }
 };
-Saida ShortestJobFirst(vector<Proc> processos){
+
+Saida PRIOp(vector<Proc> processos, int quantum, int aging){
+    int n = processos.size();
+
     //ordenar os processor por ordem de chegada
     sort(processos.begin(), processos.end(), [](Proc &a, Proc &b){
         if(a.inicio != b.inicio) return a.inicio < b.inicio;
@@ -16,7 +20,7 @@ Saida ShortestJobFirst(vector<Proc> processos){
         return a.id < b.id;
     });
 
-    priority_queue<Proc, vector<Proc>, ComparadorSJF> prontos;
+    priority_queue<Proc, vector<Proc>, ComparadorPRIO> prontos;
 
     int tempo_atual = 0, trocas = 0, id_anterior = -1;
     vector<int> diagrama;
@@ -25,7 +29,7 @@ Saida ShortestJobFirst(vector<Proc> processos){
     int prox = 0; //indicar o proximo processo a ser inserido
     int concluidos = 0;
 
-    while(concluidos < processos.size()){
+    while(concluidos < n){
         //verificar processos que ja chegaram
         while(prox < processos.size() && processos[prox].inicio <= tempo_atual){
             prontos.push(processos[prox]);
@@ -40,24 +44,36 @@ Saida ShortestJobFirst(vector<Proc> processos){
 
         Proc atual = prontos.top(); prontos.pop();
 
-        //metricas
+        //troca de contexto
         if(id_anterior != -1 && id_anterior != atual.id) trocas++;
         id_anterior = atual.id;
 
-        atual.tempo_espera = tempo_atual - atual.inicio;
-        atual.tempo_vida = atual.tempo_espera + atual.duracao;
-
-        tw_total += atual.tempo_espera;
-        tt_total += atual.tempo_vida;
-
         //processamento do atual
-        for(int i = 0 ; i < atual.duracao ; i++){
+        while(atual.tempo_restante > 0){
             diagrama.push_back(atual.id);
             tempo_atual++;
+            atual.tempo_restante--;
+            
+            //verificar se chegou algum processo com prioridade maior
+            while(prox < processos.size() && processos[prox].inicio <= tempo_atual){
+                prontos.push(processos[prox]);
+                prox++;
+            }
+            if(!prontos.empty() && prontos.top().prioridade_estatica > atual.prioridade_estatica){
+                prontos.push(atual);
+                break;
+            }
         }
-        concluidos++;
+        //so calcula as metricas se terminou
+        if(atual.tempo_restante == 0){
+            atual.tempo_vida = tempo_atual - atual.inicio;
+            atual.tempo_espera = atual.tempo_vida - atual.duracao;
+
+            tw_total += atual.tempo_espera;
+            tt_total += atual.tempo_vida;
+            concluidos++;
+        }
     }
     Saida s = formatar_saida(processos.size(), tt_total, tw_total, trocas, diagrama);
-
     return s;
 }

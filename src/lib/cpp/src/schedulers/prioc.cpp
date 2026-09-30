@@ -9,10 +9,7 @@ struct ComparadorPRIO{
         return a.id > b.id;
     }
 };
-
-Saida PRIOp(vector<Proc> processos){
-    int n = processos.size();
-
+Saida PRIOc(vector<Proc> processos, int quantum, int aging){
     //ordenar os processor por ordem de chegada
     sort(processos.begin(), processos.end(), [](Proc &a, Proc &b){
         if(a.inicio != b.inicio) return a.inicio < b.inicio;
@@ -29,7 +26,7 @@ Saida PRIOp(vector<Proc> processos){
     int prox = 0; //indicar o proximo processo a ser inserido
     int concluidos = 0;
 
-    while(concluidos < n){
+    while(concluidos < processos.size()){
         //verificar processos que ja chegaram
         while(prox < processos.size() && processos[prox].inicio <= tempo_atual){
             prontos.push(processos[prox]);
@@ -44,36 +41,24 @@ Saida PRIOp(vector<Proc> processos){
 
         Proc atual = prontos.top(); prontos.pop();
 
-        //troca de contexto
+        //metricas
         if(id_anterior != -1 && id_anterior != atual.id) trocas++;
         id_anterior = atual.id;
 
+        atual.tempo_espera = tempo_atual - atual.inicio;
+        atual.tempo_vida = atual.tempo_espera + atual.duracao;
+
+        tw_total += atual.tempo_espera;
+        tt_total += atual.tempo_vida;
+
         //processamento do atual
-        while(atual.tempo_restante > 0){
+        for(int i = 0 ; i < atual.duracao ; i++){
             diagrama.push_back(atual.id);
             tempo_atual++;
-            atual.tempo_restante--;
-            
-            //verificar se chegou algum processo com prioridade maior
-            while(prox < processos.size() && processos[prox].inicio <= tempo_atual){
-                prontos.push(processos[prox]);
-                prox++;
-            }
-            if(!prontos.empty() && prontos.top().prioridade_estatica > atual.prioridade_estatica){
-                prontos.push(atual);
-                break;
-            }
         }
-        //so calcula as metricas se terminou
-        if(atual.tempo_restante == 0){
-            atual.tempo_vida = tempo_atual - atual.inicio;
-            atual.tempo_espera = atual.tempo_vida - atual.duracao;
-
-            tw_total += atual.tempo_espera;
-            tt_total += atual.tempo_vida;
-            concluidos++;
-        }
+        concluidos++;
     }
     Saida s = formatar_saida(processos.size(), tt_total, tw_total, trocas, diagrama);
+
     return s;
 }
