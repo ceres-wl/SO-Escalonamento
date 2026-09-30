@@ -22,9 +22,6 @@
     }
 </script>
 
-<!-- HACK to force the config input to not take 100% width, making the proc input take the space instead, 
-    not fully a hack just not the prettiest code ever 
--->
 <div class="config-wrapper">
     <CommonFileInput handleFiles={handleConfigFile}>
         {#snippet label()}

@@ -34,7 +34,6 @@
     }
 </script>
 
-<!-- TODO dar um estilozinho pro header de cada processo e pro botão de remover -->
 <div class="proc-wrapper">
     <CommonFileInput handleFiles={handleProcFile}>
         {#snippet label()}

@@ -1,5 +1,5 @@
 
-import type { Saida } from "../cpp/api/build/Scheduler_wasm.ts";
+import type { Saida } from "../../lib/cpp/api/build/Scheduler_wasm";
 import type { DataPoint, Processo } from "../types";
 
 export function printTabela(saida: Saida, procs: Array<Processo>){

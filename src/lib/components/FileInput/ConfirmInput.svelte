@@ -10,9 +10,9 @@
 
     let { algoSelected = $bindable("FCFS"), delaySimul = $bindable(), handleSimulateMethod }: Props = $props();
 
-    function handleCompare(){
+    // function handleCompare(){
 
-    }
+    // }
 </script>
 
 <form onsubmit={handleSimulateMethod} class="common-div main">

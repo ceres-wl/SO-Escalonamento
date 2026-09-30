@@ -12,7 +12,7 @@
     import { formatData } from "./lib/utils/formatData";
     import { printTabela } from "./lib/utils/tabela";
     import { getDisableAnimation, setDisableAnimation } from "./lib/context/disableAnimation";
-    import type { Saida } from "./lib/cpp/api/build/Scheduler_wasm.ts";
+    import type { Saida } from "./lib/cpp/api/build/Scheduler_wasm";
 
     let data: Array<DataPoint> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
@@ -72,16 +72,6 @@
         simulated = true;
     }
 </script>
-
-<!-- Acessibilidade
-    TODO transformar todos os inputs em forms, pra navegar com enter e tal
-    TODO responsividade :(
--->
-
-<!-- Estilo
-    TODO estilizar as coisas, eu quero manter minimalista mas tá faltando mexer numas coisas
-        rever cores
--->
 
 <!-- Visualização
     TODO Fazer uma área com a opção de rodar todos os algoritmos de uma vez, pra mostrar gráficos com comparação entre eles

@@ -13,7 +13,7 @@ export function formatData(data: Array<number>){
             start,
             end: i,
             id: data[i-1] == -1?"Nenhum":`P${data[i-1]}`,
-            current_prio: undefined // TODO paulo tem que passar a prioridade no tempo respectivo pra conseguir mostrar aqui
+            current_prio: undefined
         })
         start = i;
         lastProc = data[i];

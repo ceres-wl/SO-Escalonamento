@@ -76,7 +76,9 @@
             .map((point) => {
                 return {
                     ...point,
-                    displayId: point.id
+                    displayId: point.id,
+                    // Mostrando a prioridade estática no lugar da dinâmica
+                    current_prio: procs.find((proc) => point.id == proc.id)?.prioridade_estatica ?? undefined
                 }}
         ))
     );

@@ -38,8 +38,6 @@
     }
 </script>
 
-<!-- TODO ajeitar o estilo dessa coisa -->
-
 <CollapseDiv>
     {#snippet header()}
         <h2>Gerar processos aleatoriamente</h2>
