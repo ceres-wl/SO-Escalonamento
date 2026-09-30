@@ -14,6 +14,7 @@ struct ProcInput{
     int id;
     int inicio, duracao, prioridade_estatica;
 };
+
 vector<Proc> procs = {};
 int quantum, aging;
 

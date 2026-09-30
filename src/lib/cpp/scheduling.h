@@ -12,5 +12,8 @@ Saida ShortestRemainingTimeFirst(std::vector<Proc> processos);
 Saida PRIOp(std::vector<Proc> processos);
 Saida PRIOc(std::vector<Proc> processos);
 Saida FCFS(std::vector<Proc> processos);
+Saida RoundRobin(std::vector<Proc> processos);
+Saida RoundRobinAging(vector<Proc> processos);
 
+int quantum, aging;
 #endif // SO_SCHEDULING_H
