@@ -19,6 +19,7 @@
         })
 
         setConfig(quantum, aging);
+        simulated = false;
     }
 </script>
 
@@ -30,10 +31,10 @@
 
         <div class="display">
             <label> Quantum
-                <input bind:value={() => config.quantum, (val) => setConfig(config.aging, val)} type="number" name="quantum">
+                <input bind:value={() => config.quantum, (val) => { setConfig(config.aging, val); simulated = false; }} type="number" name="quantum">
             </label>
             <label> Aging
-                <input bind:value={() => config.aging, (val) => setConfig(val, config.aging)} type="number" name="aging">
+                <input bind:value={() => config.aging, (val) => { setConfig(val, config.quantum); simulated = false;}} type="number" name="aging">
             </label>
         </div>
     </CommonFileInput>
