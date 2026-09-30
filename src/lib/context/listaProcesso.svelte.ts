@@ -26,7 +26,6 @@ export function addProcesso(proc: ProcessoInput){
 
 export function updateProcesso(procId: string, inicio: number, duracao: number, prio: number){
     const proc = listaProcesso[listaProcesso.findIndex((proc) => proc.id == procId)];
-    console.log(proc);
     proc.inicio = inicio;
     proc.duracao = duracao;
     proc.prioridade_estatica = prio;
