@@ -1,7 +1,7 @@
 {
   "name": "so-escalonamento",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "repository": "https://github.com/ceres-wl/SO-Escalonamento",
   "scripts": {
@@ -11,6 +11,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
   },
   "devDependencies": {
+    "@iconify-json/fa-solid": "^1.2.2",
     "@sveltejs/vite-plugin-svelte": "^7.3.0",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^24.13.3",
@@ -18,11 +19,10 @@
     "svelte": "^5.57.0",
     "svelte-check": "^4.7.6",
     "typescript": "~6.0.2",
+    "unplugin-icons": "^24.0.0",
     "vite": "^8.3.0"
   },
   "dependencies": {
-    "@iconify-json/fa-solid": "^1.2.2",
-    "layerchart": "^2.5.0",
-    "unplugin-icons": "^24.0.0"
+    "layerchart": "^2.5.0"
   }
 }

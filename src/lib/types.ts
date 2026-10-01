@@ -18,7 +18,7 @@ export interface DataPoint{
     id: string;
     start: number;
     end: number;
-    current_prio?: number;
+    priority?: number;
 }
 
 export interface Metrics{
