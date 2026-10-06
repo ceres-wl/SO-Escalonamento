@@ -41,8 +41,6 @@
             }
         }));
     
-    // let automaticSimulation = $state(true);
-    // let disableSimulationCheckbox = $state(false);
     let time = $state(0);
     let interval = 0;
     
@@ -57,8 +55,6 @@
             time++;
             if(time >= data.length){
                 clearInterval(interval);
-                // automaticSimulation = false;
-                // disableSimulationCheckbox = true;
             };
         }, delay);
     }
