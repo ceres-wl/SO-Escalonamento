@@ -1,5 +1,7 @@
 cd src/lib/cpp
 
+# TODO ajeitar isso aqui pros 3 trabalhos
+
 emcmake cmake -B build &&
 cmake --build build &&
 mkdir api/build &&
