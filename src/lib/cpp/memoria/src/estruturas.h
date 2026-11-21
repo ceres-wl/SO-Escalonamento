@@ -3,17 +3,22 @@
 
 #include <vector>
 
+using namespace std;
+
 //struct simulando cada bloco de memoria
 struct Bloco{
     int id;
     int comeco, tamanho; //comeca representa o endereco inicial do bloco
     bool livre; //indicar se é um bloco livre ou alocado
+
+    Bloco(int id, int comeco, int tam, bool livre) : 
+        id(id), comeco(comeco), tamanho(tam), livre(livre) {}
 };
 
 //struct representando a memoria -> uniao de blocos
 struct Memoria{
     int tam_total;
-    std::vector<Bloco> mem; //manter ordenado pelo comeco de cada bloco
+    vector<Bloco> mem; //manter ordenado pelo comeco de cada bloco
     int id_atual, ptr_next_fit; //ptr_next_fit representa o endereco apos o ultimo bloco alocado
     
     void init(int tamanho){
@@ -34,6 +39,8 @@ struct Saida{
     int buracos;
     int maior_buraco_livre;
     double uso_efetivo;
+
+    bool conseguiu_alocar;
 };
 
 #endif // ESTRUTURAS_H
