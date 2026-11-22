@@ -5,7 +5,7 @@ Saida FirstFit(Memoria &memoria, int tamanho){
     for(int i = 0 ; i < memoria.mem.size() ; i++){
         Bloco b = memoria.mem[i];
         if(b.livre && b.tamanho >= tamanho){
-            alocar(memoria, tamanho, b.comeco, i);
+            alocar(memoria, tamanho, b.endereco, i);
             val = 1;
             break;
         }

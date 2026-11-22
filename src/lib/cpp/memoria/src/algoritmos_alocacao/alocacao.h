@@ -5,7 +5,7 @@
 #include "../saida.h"
 
 //funcao auxiliar para inserir um novo bloco no vetor da memoria
-void alocar(Memoria &memoria, int tamanho, int comeco, int pos);
+void alocar(Memoria &memoria, int tamanho, int endereco, int pos);
 
 Saida FirstFit(Memoria &memoria, int tamanho);
 Saida BestFit(Memoria &memoria, int tamanho);

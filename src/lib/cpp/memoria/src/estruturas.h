@@ -8,17 +8,17 @@ using namespace std;
 //struct simulando cada bloco de memoria
 struct Bloco{
     int id;
-    int comeco, tamanho; //comeca representa o endereco inicial do bloco
+    int endereco, tamanho; //endereco referente ao endereco inicial do bloco
     bool livre; //indicar se é um bloco livre ou alocado
 
-    Bloco(int id, int comeco, int tam, bool livre) : 
-        id(id), comeco(comeco), tamanho(tam), livre(livre) {}
+    Bloco(int id, int endereco, int tam, bool livre) : 
+        id(id), endereco(endereco), tamanho(tam), livre(livre) {}
 };
 
 //struct representando a memoria -> uniao de blocos
 struct Memoria{
     int tam_total;
-    vector<Bloco> mem; //manter ordenado pelo comeco de cada bloco
+    vector<Bloco> mem; //ordenado pelo endereco inicial de cada bloco
     int id_atual, ptr_next_fit; //ptr_next_fit representa o endereco apos o ultimo bloco alocado
     
     void init(int tamanho){
@@ -27,12 +27,12 @@ struct Memoria{
         ptr_next_fit = 0;
 
         mem.clear();
-        Bloco b = {0, 0, tamanho, true}; //id 0 para representar o comeco
+        Bloco b = {0, 0, tamanho, true}; //id 0 para representar blocos livres
         mem.push_back(b);
     }
 };
 
-//struct com as informacoes a serem exibidas na saida
+//struct com as informacoes da memoria a serem exibidas na saida
 struct Saida{
     int tam_total;
     int ocupado, livre;
@@ -41,6 +41,17 @@ struct Saida{
     double uso_efetivo;
 
     bool conseguiu_alocar;
+};
+
+enum Opcao{
+    INIT,
+    END,
+    OPT
+};
+
+struct SaidaDefrag{
+    int blocos_movidos;
+    int mem_deslocada;
 };
 
 #endif // ESTRUTURAS_H

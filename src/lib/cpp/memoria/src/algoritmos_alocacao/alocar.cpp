@@ -1,7 +1,7 @@
 #include "alocacao.h"
 
-void alocar(Memoria &memoria, int tamanho, int comeco, int pos){
-    Bloco b(memoria.id_atual, comeco, tamanho, false);
+void alocar(Memoria &memoria, int tamanho, int endereco, int pos){
+    Bloco b(memoria.id_atual, endereco, tamanho, false);
     memoria.id_atual++;
     
     vector<Bloco> &v = memoria.mem;
@@ -15,7 +15,7 @@ void alocar(Memoria &memoria, int tamanho, int comeco, int pos){
     v.insert(v.begin() + pos, b);
 
     //adicionar o bloco livre (restante) no indice i+1 e atualizar ptr do next fit
-    int novo_comeco = anterior.comeco + tamanho;
+    int novo_comeco = anterior.endereco + tamanho;
     memoria.ptr_next_fit = novo_comeco;
 
     if(anterior.tamanho > tamanho){

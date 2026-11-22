@@ -1,5 +1,6 @@
 #include "saida.h"
 
+//funcao auxiliar para calcular as estatisticas para a saida dada uma memoria
 Saida gerar_saida(Memoria &memoria, bool alocacao_valida){
     Saida s; 
 

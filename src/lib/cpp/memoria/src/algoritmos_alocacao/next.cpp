@@ -5,7 +5,7 @@ Saida NextFit(Memoria &memoria, int tamanho){
     int pos = 0;
     for(int i = 0 ; i < memoria.mem.size() ; i++){
         Bloco b = memoria.mem[i];
-        if(b.livre && b.comeco + b.tamanho > memoria.ptr_next_fit){
+        if(b.livre && b.endereco + b.tamanho > memoria.ptr_next_fit){
             pos = i;
             break;
         }
@@ -16,18 +16,18 @@ Saida NextFit(Memoria &memoria, int tamanho){
     for(int i = pos ; i < memoria.mem.size() ; i++){
         Bloco b = memoria.mem[i];
         if(b.livre && b.tamanho >= tamanho){
-            alocar(memoria, tamanho, b.comeco, i);
+            alocar(memoria, tamanho, b.endereco, i);
             achou = 1;
             break;
         }
     }
     
-    //se nao achou, procura do comeco
+    //se nao achou, procura do endereco
     if(!achou){
         for(int i = 0 ; i < pos ; i++){
             Bloco b = memoria.mem[i];
             if(b.livre && b.tamanho >= tamanho){
-                alocar(memoria, tamanho, b.comeco, i);
+                alocar(memoria, tamanho, b.endereco, i);
                 achou = 1;
                 break;
             }
