@@ -1,7 +1,7 @@
 <script lang="ts">
     import { addProcesso, removeProcesso, getProcessos, updateProcesso, clearProcs } from "../../context/listaProcesso.svelte";
     import type { Processo } from "../../types";
-    import CommonFileInput from "./CommonFileInput.svelte";
+    import CommonFileInput from "../../../../components/FileInput/CommonFileInput.svelte";
     import Times from "~icons/fa-solid/times";
 
     interface Props{

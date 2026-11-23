@@ -1,8 +1,7 @@
 <script lang="ts">
-    import type { Component } from "svelte";
-    import Escalonamento from "./lib/pages/Escalonamento.svelte";
-    import Paginacao from "./lib/pages/Paginacao.svelte";
-    import Memoria from "./lib/pages/Memoria.svelte";
+    import Escalonamento from "./lib/pages/escalonamento/Escalonamento.svelte";
+    import Paginacao from "./lib/pages/paginacao/Paginacao.svelte";
+    import Memoria from "./lib/pages/memoria/Memoria.svelte";
 
     let selected: "Escalonamento" | "Paginacao" | "Memoria" = "Memoria";
 </script>

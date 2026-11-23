@@ -1,5 +1,5 @@
-import { set_config } from "../cpp/escalonamento/api/cppApi";
-import type { SimulationConfig } from "../types";
+import { set_config } from "../cpp/api/cppApi";
+import type { SimulationConfig } from "../types.ts";
 
 // Módulo que contém só os dados de configuração
 

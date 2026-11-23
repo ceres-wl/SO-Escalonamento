@@ -1,6 +1,6 @@
 <script lang="ts">
     import { config, setConfig } from "../../context/config.svelte.js";
-    import CommonFileInput from "./CommonFileInput.svelte";
+    import CommonFileInput from "../../../../components/FileInput/CommonFileInput.svelte";
 
     interface Props{
         simulated: boolean;

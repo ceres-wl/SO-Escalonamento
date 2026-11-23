@@ -1,11 +1,12 @@
 <script lang="ts">
-    import DragAndDrop from "../form/DragAndDrop.svelte";
+    import CommonDiv from "../CommonDiv.svelte";
+import DragAndDrop from "../form/DragAndDrop.svelte";
 
     let { handleFiles, label, children} = $props();
 </script>
 
-<div class="common-div">
+<CommonDiv>
     {@render label()}
     <DragAndDrop handleFiles={handleFiles} />
     {@render children()}
-</div>
+</CommonDiv>

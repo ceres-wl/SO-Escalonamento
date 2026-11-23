@@ -1,4 +1,4 @@
-import type { DataPoint } from "../types";
+import type { DataPoint } from "../pages/escalonamento/types";
 
 export function formatData(data: Array<number>){
     if(data.length == 0) return [];

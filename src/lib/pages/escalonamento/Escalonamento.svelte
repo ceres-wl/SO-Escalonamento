@@ -1,20 +1,21 @@
 <script lang="ts">
     import { slide } from "svelte/transition";
-    import MetricsArea from "../components/charts/MetricsArea.svelte";
-    import ProcSimulationChart from "../components/charts/ProcSimulationChart.svelte";
-    import ConfigInput from "../components/FileInput/ConfigInput.svelte";
-    import ConfirmInput from "../components/FileInput/ConfirmInput.svelte";
-    import GenerateProcs from "../components/FileInput/GenerateProcs.svelte";
-    import ProcInput from "../components/FileInput/ProcInput.svelte";
-    import { FCFS, prio_c, prio_p, round_robin, round_robin_aging, SJF, SRTF } from "../cpp/escalonamento/api/cppApi";
-    import { getProcessos } from "../context/listaProcesso.svelte";
-    import type { Algo, DataPoint, InfoToCopy, Metrics } from "../types";
-    import { formatData } from "../utils/formatData";
-    import { printTabela } from "../utils/tabela";
-    import { getDisableAnimation, setDisableAnimation } from "../context/disableAnimation";
-    import type { Saida } from "../cpp/api/build/Scheduler_wasm";
-    import SchedulingIcon from '../../assets/scheduling_nobg.webp';
+    import MetricsArea from "./components/charts/MetricsArea.svelte";
+    import ProcSimulationChart from "./components/charts/ProcSimulationChart.svelte";
+    import ConfigInput from "./components/FileInput/ConfigInput.svelte";
+    import ConfirmInput from "./components/FileInput/ConfirmInput.svelte";
+    import GenerateProcs from "./components/FileInput/GenerateProcs.svelte";
+    import ProcInput from "./components/FileInput/ProcInput.svelte";
+    import { FCFS, prio_c, prio_p, round_robin, round_robin_aging, SJF, SRTF } from "./cpp/api/cppApi";
+    import { getProcessos } from "./context/listaProcesso.svelte";
+    import type { Algo, DataPoint, InfoToCopy, Metrics } from "./types";
+    import { formatData } from "../../utils/formatData";
+    import { printTabela } from "../../utils/tabela";
+    import { getDisableAnimation, setDisableAnimation } from "../../context/disableAnimation";
+    import type { Saida } from "./cpp/api/build/Scheduler_wasm";
+    import SchedulingIcon from '../../../assets/scheduling_nobg.webp';
     import External from '~icons/fa-solid/external-link-alt'
+    import CommonDiv from "../../components/CommonDiv.svelte";
 
     let data: Array<DataPoint> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
@@ -106,11 +107,13 @@
         }} />
     </form>
     {#if simulated}
-    <div transition:slide={{duration: getDisableAnimation()()?0:500}} class="visual common-div">
-        <MetricsArea {metrics} {infoToCopy} />
-        <hr>
-        <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
-    </div>
+    <CommonDiv>
+        <div transition:slide={{duration: getDisableAnimation()()?0:500}} class="visual">
+            <MetricsArea {metrics} {infoToCopy} />
+            <hr>
+            <ProcSimulationChart {data} procs={getProcessos()} delaySimul={delaySimul}/>
+        </div>
+    </CommonDiv>
     {/if}
     <footer>
         <p>
@@ -122,7 +125,6 @@
 
 <style>
     @import 'layerchart/core.css';
-    @import "../components/commonDiv.css";
 
     main{
         max-width: 120ch;

@@ -1,4 +1,4 @@
-import type { DataPoint } from "../types";
+import type { DataPoint } from "../pages/escalonamento/types";
 
 export function getXDomain(data: Array<DataPoint>){
     if(data.length == 0) return [0, 0];

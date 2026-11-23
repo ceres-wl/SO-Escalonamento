@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type { InfoToCopy, Metrics } from "../../types";
+    import CommonDiv from "../../../../components/CommonDiv.svelte";
+import type { InfoToCopy, Metrics } from "../../types";
     import CopyIcon from "~icons/fa-solid/copy";
 
     interface Props{
@@ -21,10 +22,13 @@
     </header>
 
     {#snippet metricDiv(header: string, metric: number)}
-        <div class="metric-div common-div">
-            <header>{header}</header>
-            <p>{metric}</p>
-        </div>
+        <!-- HACK GAMBIARRA!!! -->
+        <CommonDiv id="no-padding">
+            <div class="metric-div">
+                <header>{header}</header>
+                <p>{metric}</p>
+            </div>
+        </CommonDiv>
     {/snippet}
 
     <div class="display-metrics">
@@ -45,6 +49,11 @@
     }
 
     .metric-div{
+        width: 100%;
+        height: 100%;
+
+        padding: 0.5rem;
+
         background-color: var(--color-secondary);
     }
 
@@ -52,5 +61,13 @@
         display: flex;
         gap: 5px;
         padding: 5px;
+    }
+
+    :global(#no-padding){
+        padding: 0;
+
+        p{
+            margin: 0;
+        }
     }
 </style>

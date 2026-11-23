@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { BarChart, defaultChartPadding } from 'layerchart';
-    import { randomHexColor } from '../../utils/randomColor';
+    import { randomHexColor } from '../../../../utils/randomColor';
     import type { DataPoint, Processo } from '../../types';
     import { cubicOut } from 'svelte/easing';
     import { getXDomain, getYDomain } from '../../utils/procDataDomain';
-    import BigButton from '../form/bigButton.svelte';
-    import { getDisableAnimation } from '../../context/disableAnimation';
+    import BigButton from '../../../../components/form/bigButton.svelte';
+    import { getDisableAnimation } from '../../../../context/disableAnimation';
 
     interface Props{
         data: Array<DataPoint>;

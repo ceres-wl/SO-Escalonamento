@@ -1,7 +1,7 @@
 <script lang="ts">
     import { addProcesso } from '../../context/listaProcesso.svelte';
-    import CollapseDiv from '../collapseDiv/CollapseDiv.svelte';
-    import BigButton from '../form/bigButton.svelte';
+    import CollapseDiv from '../../../../components/collapseDiv/CollapseDiv.svelte';
+    import BigButton from '../../../../components/form/bigButton.svelte';
 
     interface Props{
         simulated: boolean

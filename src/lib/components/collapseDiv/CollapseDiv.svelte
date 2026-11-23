@@ -3,6 +3,7 @@
     import { slide } from "svelte/transition";
     import Arrow from '~icons/fa-solid/angle-down';
     import { getDisableAnimation } from "../../context/disableAnimation";
+    import CommonDiv from "../CommonDiv.svelte";
 
     interface Props{
         header: Snippet;
@@ -14,21 +15,23 @@
     let collapsed = $state(true);
 </script>
 
-<div class="collapse-div common-div">
-    <button onclick={() => collapsed = !collapsed}>
-        <header>
-            {@render header()}
-            <div class={collapsed?null:"rotate"}>
-                <Arrow/>
-            </div>
-        </header>
-    </button>
-    {#if !collapsed}
-    <div transition:slide={{duration: getDisableAnimation()()?0:500}}>
-        {@render children()}
+<CommonDiv>
+    <div class="collapse-div">
+        <button onclick={() => collapsed = !collapsed}>
+            <header>
+                {@render header()}
+                <div class={collapsed?null:"rotate"}>
+                    <Arrow/>
+                </div>
+            </header>
+        </button>
+        {#if !collapsed}
+        <div transition:slide={{duration: getDisableAnimation()()?0:500}}>
+            {@render children()}
+        </div>
+        {/if}
     </div>
-    {/if}
-</div>
+</CommonDiv>
 
 <style>
     button{

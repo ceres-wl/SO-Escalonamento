@@ -1,6 +1,6 @@
 
 import type { Saida } from "../../lib/cpp/api/build/Scheduler_wasm";
-import type { DataPoint, Processo } from "../types";
+import type { DataPoint, Processo } from "../pages/escalonamento/types";
 
 export function printTabela(saida: Saida, procs: Array<Processo>){
     const data: Array<number> = Array.from(saida.diagrama_tempo);
