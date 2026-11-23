@@ -6,7 +6,7 @@
     import ConfirmInput from "../components/FileInput/ConfirmInput.svelte";
     import GenerateProcs from "../components/FileInput/GenerateProcs.svelte";
     import ProcInput from "../components/FileInput/ProcInput.svelte";
-    import { FCFS, prio_c, prio_p, round_robin, round_robin_aging, SJF, SRTF } from "../cpp/api/cppApi";
+    import { FCFS, prio_c, prio_p, round_robin, round_robin_aging, SJF, SRTF } from "../cpp/escalonamento/api/cppApi";
     import { getProcessos } from "../context/listaProcesso.svelte";
     import type { Algo, DataPoint, InfoToCopy, Metrics } from "../types";
     import { formatData } from "../utils/formatData";

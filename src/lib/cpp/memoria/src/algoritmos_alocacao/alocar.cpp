@@ -1,7 +1,7 @@
 #include "alocacao.h"
 
 void alocar(Memoria &memoria, int tamanho, int endereco, int pos){
-    Bloco b(memoria.id_atual, endereco, tamanho, false);
+    Bloco b = create_bloco(memoria.id_atual, endereco, tamanho, false);
     memoria.id_atual++;
     
     vector<Bloco> &v = memoria.mem;
@@ -21,7 +21,7 @@ void alocar(Memoria &memoria, int tamanho, int endereco, int pos){
     if(anterior.tamanho > tamanho){
         int novo_tamanho = anterior.tamanho - tamanho;
 
-        Bloco aux(anterior.id, novo_comeco, novo_tamanho, true);
+        Bloco aux = create_bloco(anterior.id, novo_comeco, novo_tamanho, true);
         v.insert(v.begin() + pos + 1, aux);
     }
 }

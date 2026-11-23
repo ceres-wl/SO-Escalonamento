@@ -25,7 +25,7 @@ SaidaDefrag defrag_end(Memoria &memoria){
         memoria.mem.push_back(b);
     }
     if(memoria_livre > 0){
-        Bloco restante(0, endr_atual, memoria_livre, true);
+        Bloco restante = create_bloco(0, endr_atual, memoria_livre, true);
         memoria.mem.push_back(restante);
     }
     return {blocos_movidos, mem_deslocada};
@@ -58,7 +58,7 @@ SaidaDefrag defrag_init(Memoria &memoria){
         memoria.mem.push_back(b);
     }
     if(memoria_livre > 0){
-        Bloco restante(0, 0, memoria_livre, true);
+        Bloco restante = create_bloco(0, 0, memoria_livre, true);
         memoria.mem.push_back(restante);
     }
     //inverter para garantir ordenacao pelo endereco no vetor de blocos da memoria
@@ -128,7 +128,7 @@ SaidaDefrag defrag_opt(Memoria &memoria){
     }
 
     if(memoria_livre > 0){
-        Bloco restante(0, endr_atual, memoria_livre, true);
+        Bloco restante = create_bloco(0, endr_atual, memoria_livre, true);
         memoria.mem.push_back(restante);
     }
     

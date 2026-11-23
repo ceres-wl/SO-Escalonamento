@@ -14,6 +14,7 @@ Saida FirstFit(Memoria &memoria, int tamanho){
     Saida s = gerar_saida(memoria, val);
 
     if(!val){
+        // TODO testar se no JS da pra dar catch em um throw dado aqui dentro
         // cout << "Erro: sem espaço contíguo para ..."
     }
 
