@@ -1,3 +1,5 @@
+import type { DataPoint } from "../../types";
+
 export interface SimulationConfig {
     quantum: number;
     aging: number;
@@ -14,10 +16,7 @@ export interface Processo extends ProcessoInput {
     prioridade_dinamica: number;
 }
 
-export interface DataPoint{
-    id: string;
-    start: number;
-    end: number;
+export interface DataPointEscalonamento extends DataPoint{
     priority?: number;
 }
 

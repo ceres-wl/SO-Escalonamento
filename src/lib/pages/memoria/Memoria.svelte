@@ -2,6 +2,7 @@
     import type { Memoria, Opcao } from "./cpp/api/build/Memory_wasm";
     import { alloc, create_memoria, defrag, freeaddr, freeid, opcao, show, stats, type AllocAlgs } from "./cpp/api/cppApi";
     import { memoria, setMemoria } from "./context/memoria.svelte";
+    import MemoryChart from "./components/charts/MemoryChart.svelte";
 
     // Todos os comandos devem ser apis do cpp, 
     // Memória pode ser um vetor de struct criada no cpp tbm
@@ -82,19 +83,9 @@
     <!-- Alguma forma de visualização aqui-->
     {#if memoria && memoria.id_atual != Infinity}
     <p>{memoria.id_atual}</p>
-    {#each Array.from(memoria.mem) as bloco(bloco.id)}
-        <div class="memory-block">
-            <p>{bloco.id}</p>
-            <p>{bloco.endereco}</p>
-            <p>{bloco.livre}</p>
-            <p>{bloco.tamanho}</p>
-        </div>
-    {/each}
+    <MemoryChart mem={memoria}/>
     {/if}
 </main>
 
 <style>
-    .memory-block{
-        background-color: bisque;
-    }
 </style>

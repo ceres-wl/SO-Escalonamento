@@ -8,16 +8,16 @@
     import ProcInput from "./components/FileInput/ProcInput.svelte";
     import { FCFS, prio_c, prio_p, round_robin, round_robin_aging, SJF, SRTF } from "./cpp/api/cppApi";
     import { getProcessos } from "./context/listaProcesso.svelte";
-    import type { Algo, DataPoint, InfoToCopy, Metrics } from "./types";
-    import { formatData } from "../../utils/formatData";
-    import { printTabela } from "../../utils/tabela";
+    import type { Algo, DataPointEscalonamento, InfoToCopy, Metrics } from "./types";
+    import { formatData } from "./utils/formatData";
+    import { printTabela } from "./utils/tabela";
     import { getDisableAnimation, setDisableAnimation } from "../../context/disableAnimation";
     import type { Saida } from "./cpp/api/build/Scheduler_wasm";
     import SchedulingIcon from '../../../assets/scheduling_nobg.webp';
     import External from '~icons/fa-solid/external-link-alt'
     import CommonDiv from "../../components/CommonDiv.svelte";
 
-    let data: Array<DataPoint> = $state([]);
+    let data: Array<DataPointEscalonamento> = $state([]);
     let metrics: Metrics = $state({num_change: 0, turnaround: 0, waiting: 0});
 
     let simulated = $state(false);
