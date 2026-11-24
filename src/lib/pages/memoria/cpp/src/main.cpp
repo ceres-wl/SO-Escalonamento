@@ -12,8 +12,8 @@ EMSCRIPTEN_BINDINGS(module){
     emscripten::function<Saida>("BestFit", &BestFit);
     emscripten::function<Saida>("WorstFit", &WorstFit);
     emscripten::function<Saida>("NextFit", &NextFit);
-    emscripten::function<bool>("freeid", &freeid);
-    emscripten::function<bool>("freeaddr", &freeaddr);
+    emscripten::function<SaidaFree>("freeid", &freeid);
+    emscripten::function<SaidaFree>("freeaddr", &freeaddr);
     emscripten::function<SaidaDefrag>("defrag", &defrag);
     emscripten::function<Saida>("gerar_saida", &gerar_saida);
 
@@ -36,11 +36,17 @@ EMSCRIPTEN_BINDINGS(module){
         .field("buracos", &Saida::buracos)
         .field("maior_buraco_livre", &Saida::maior_buraco_livre)
         .field("uso_efetivo", &Saida::uso_efetivo)
-        .field("conseguiu_alocar", &Saida::conseguiu_alocar);
+        .field("conseguiu_alocar", &Saida::conseguiu_alocar)
+        .field("mem", &Saida::mem);
 
     value_object<SaidaDefrag>("SaidaDefrag")
         .field("blocos_movidos", &SaidaDefrag::blocos_movidos)
-        .field("mem_deslocada", &SaidaDefrag::mem_deslocada);
+        .field("mem_deslocada", &SaidaDefrag::mem_deslocada)
+        .field("mem", &SaidaDefrag::mem);
+
+    value_object<SaidaFree>("SaidaFree")
+        .field("sucesso", &SaidaFree::sucesso)
+        .field("mem", &SaidaFree::mem);
     
     enum_<Opcao>("Opcao")
         .value("INIT", Opcao::INIT)

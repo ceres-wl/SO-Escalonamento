@@ -38,9 +38,15 @@ export type Memoria = {
   ptr_next_fit: number
 };
 
+export type SaidaFree = {
+  sucesso: boolean,
+  mem: Memoria
+};
+
 export type SaidaDefrag = {
   blocos_movidos: number,
-  mem_deslocada: number
+  mem_deslocada: number,
+  mem: Memoria
 };
 
 export type Saida = {
@@ -50,7 +56,8 @@ export type Saida = {
   buracos: number,
   maior_buraco_livre: number,
   uso_efetivo: number,
-  conseguiu_alocar: boolean
+  conseguiu_alocar: boolean,
+  mem: Memoria
 };
 
 interface EmbindModule {
@@ -59,8 +66,8 @@ interface EmbindModule {
     new(): vector<Bloco>;
   };
   create_memoria(_0: number): Memoria;
-  freeid(_0: Memoria, _1: number): boolean;
-  freeaddr(_0: Memoria, _1: number): boolean;
+  freeid(_0: Memoria, _1: number): SaidaFree;
+  freeaddr(_0: Memoria, _1: number): SaidaFree;
   defrag(_0: Memoria, _1: Opcao): SaidaDefrag;
   FirstFit(_0: Memoria, _1: number): Saida;
   BestFit(_0: Memoria, _1: number): Saida;

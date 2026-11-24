@@ -1,20 +1,51 @@
+import { MemModule, setMemoria } from "../../context/memoria.svelte";
 import createModule, { type Memoria, type Opcao } from "./build/Memory_wasm";
 
 // Teoricamente esperar essa promise desse jeito assim que o módulo carrega vai atrasar
 // o carregamento de qualquer componente que queira usar uma dessas funções, de forma desnecessária,
 // mas pro nosso caso aqui tá tudo bem, não vai nem ser perceptivel a demora
 
-const Module = await createModule();
+export const create_memoria = MemModule.create_memoria;
 
-export const create_memoria = Module.create_memoria;
-export const FirstFit = Module.FirstFit;
-export const BestFit = Module.BestFit;
-export const WorstFit = Module.WorstFit;
-export const NextFit = Module.NextFit;
-export const freeid = Module.freeid;
-export const freeaddr = Module.freeaddr;
-export const defrag = Module.defrag;
-export const gerar_saida = Module.gerar_saida;
+export const FirstFit = (mem: Memoria, tam: number) =>{
+    const s = MemModule.FirstFit(mem, tam);
+    setMemoria(s.mem);
+    return s;
+}
+export const BestFit = (mem: Memoria, tam: number) =>{
+    const s = MemModule.BestFit(mem, tam);
+    setMemoria(s.mem);
+    return s;
+}
+export const WorstFit = (mem: Memoria, tam: number) =>{
+    const s = MemModule.WorstFit(mem, tam);
+    setMemoria(s.mem);
+    return s;
+}
+export const NextFit = (mem: Memoria, tam: number) =>{
+    const s = MemModule.NextFit(mem, tam);
+    setMemoria(s.mem);
+    return s;
+}
+
+export const freeid = (mem: Memoria, id: number) =>{
+    const s = MemModule.freeid(mem, id);
+    setMemoria(s.mem);
+    return s;
+}
+export const freeaddr = (mem: Memoria, addr: number) =>{
+    const s = MemModule.freeaddr(mem, addr);
+    setMemoria(s.mem);
+    return s;
+}
+
+export const defrag = (mem: Memoria, opc: Opcao) =>{
+    const s = MemModule.defrag(mem, opc);
+    setMemoria(s.mem);
+    return s;
+};
+
+export const gerar_saida = MemModule.gerar_saida;
 
 export type AllocAlgs = "first" | "best" | "worst" | "next";
 

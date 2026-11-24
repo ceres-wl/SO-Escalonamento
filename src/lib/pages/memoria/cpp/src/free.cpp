@@ -15,7 +15,8 @@ void juntar(vector<Bloco> &v, int pos){
     }
 }
 
-bool freeid(Memoria &memoria, int id){
+SaidaFree freeid(Memoria &memoria, int id){
+    SaidaFree s;
     int pos = -1; //posicao do bloco a ser liberado
 
     for(int i = 0 ; i < memoria.mem.size() ; i++){
@@ -25,15 +26,19 @@ bool freeid(Memoria &memoria, int id){
             break;
         }
     }
-    if(pos == -1) return false;
+    if(pos == -1) s.sucesso = false;
 
     memoria.mem[pos].livre = 1;
     memoria.mem[pos].id = 0;
     juntar(memoria.mem, pos);
-    return true;
+    s.sucesso = true;
+
+    s.mem = memoria;
+    return s;
 }
 
-bool freeaddr(Memoria &memoria, int endereco){
+SaidaFree freeaddr(Memoria &memoria, int endereco){
+    SaidaFree s;
     int pos = -1; //posicao do bloco a ser liberado
 
     for(int i = 0 ; i < memoria.mem.size() ; i++){
@@ -43,10 +48,13 @@ bool freeaddr(Memoria &memoria, int endereco){
             break;
         }
     }
-    if(pos == -1) return false;
+    if(pos == -1) s.sucesso = false;
 
     memoria.mem[pos].livre = 1;
     memoria.mem[pos].id = 0;
     juntar(memoria.mem, pos);
-    return true;
+    s.sucesso = true;
+
+    s.mem = memoria;
+    return s;
 }

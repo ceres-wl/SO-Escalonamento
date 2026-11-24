@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Memoria, Opcao } from "./cpp/api/build/Memory_wasm";
     import { alloc, create_memoria, defrag, freeaddr, freeid, opcao, show, stats, type AllocAlgs } from "./cpp/api/cppApi";
+    import { memoria, setMemoria } from "./context/memoria.svelte";
 
     // Todos os comandos devem ser apis do cpp, 
     // Memória pode ser um vetor de struct criada no cpp tbm
@@ -8,10 +9,10 @@
     let cliInput = $state("");
     let output = $state("");
 
-    let memoria: Memoria | null = $state(null);
-
     function handleSubmit(e: SubmitEvent){
         e.preventDefault();
+
+        // TODO arrow up e down pra selecionar histórico de comandos
 
         const tokens = cliInput.trim().toLowerCase().split(" ");
         const cmd = tokens[0];
@@ -26,7 +27,7 @@
             // top switch cases mais feios já escritos
             switch (cmd) {
                 case "init":
-                    memoria = create_memoria(parseNumStr(tokens[1]));
+                    setMemoria(create_memoria(parseNumStr(tokens[1])));
                     break;
                 case "alloc":
                     if(memoria == null) throw new Error("Memória não inicializada!");
@@ -59,6 +60,7 @@
                 default:
                     throw new Error("Comando inválido!");
             }
+            output = "";
         }catch(e){
             if(!(e instanceof Error)) return;
             output = e.message;
@@ -78,12 +80,21 @@
         <p>{output}</p>
     </div>
     <!-- Alguma forma de visualização aqui-->
-    {#each memoria?.mem as bloco(bloco.id)}
-        <div>
+    {#if memoria && memoria.id_atual != Infinity}
+    <p>{memoria.id_atual}</p>
+    {#each Array.from(memoria.mem) as bloco(bloco.id)}
+        <div class="memory-block">
             <p>{bloco.id}</p>
             <p>{bloco.endereco}</p>
             <p>{bloco.livre}</p>
             <p>{bloco.tamanho}</p>
         </div>
     {/each}
+    {/if}
 </main>
+
+<style>
+    .memory-block{
+        background-color: bisque;
+    }
+</style>

@@ -33,6 +33,7 @@ struct Saida{
     int buracos;
     int maior_buraco_livre;
     double uso_efetivo;
+    Memoria mem; // Memória modificada(se o método modifica a memória)
 
     bool conseguiu_alocar;
 };
@@ -46,6 +47,7 @@ enum Opcao{
 struct SaidaDefrag{
     int blocos_movidos;
     int mem_deslocada;
+    Memoria mem; // Memória modificada(se o método modifica a memória)
 };
 
 #endif // ESTRUTURAS_H

@@ -25,5 +25,6 @@ Saida gerar_saida(Memoria &memoria, bool alocacao_valida){
         alocacao_valida
     };
 
+    s.mem = memoria;
     return s;
 }

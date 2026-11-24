@@ -28,7 +28,7 @@ SaidaDefrag defrag_end(Memoria &memoria){
         Bloco restante = create_bloco(0, endr_atual, memoria_livre, true);
         memoria.mem.push_back(restante);
     }
-    return {blocos_movidos, mem_deslocada};
+    return {blocos_movidos, mem_deslocada, memoria};
 }
 
 SaidaDefrag defrag_init(Memoria &memoria){
@@ -63,7 +63,7 @@ SaidaDefrag defrag_init(Memoria &memoria){
     }
     //inverter para garantir ordenacao pelo endereco no vetor de blocos da memoria
     reverse(memoria.mem.begin(), memoria.mem.end());
-    return {blocos_movidos, mem_deslocada};
+    return {blocos_movidos, mem_deslocada, memoria};
 }
 
 //funcao auxiliar para analisar quantos bytes sao movidos movendo k blocos para o inicio
@@ -146,7 +146,7 @@ SaidaDefrag defrag_opt(Memoria &memoria){
         memoria.mem.push_back(b);
     }
 
-    return {blocos_movidos, mem_deslocada};
+    return {blocos_movidos, mem_deslocada, memoria};
 }
 
 SaidaDefrag defrag(Memoria &memoria, Opcao op){
