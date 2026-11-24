@@ -50,6 +50,7 @@ export const gerar_saida = MemModule.gerar_saida;
 export type AllocAlgs = "first" | "best" | "worst" | "next";
 
 export function alloc(mem: Memoria, tamanho: number, algo: AllocAlgs){
+    // TODO ver o struct se a memória foi alocada
     switch (algo) {
         case "first":
             FirstFit(mem, tamanho);
@@ -68,10 +69,10 @@ export function alloc(mem: Memoria, tamanho: number, algo: AllocAlgs){
 
 // TODO ver com o paulo como ficam essas duas
 export function show(mem: Memoria){
-
+    // Mostrar memória
 }
 export function stats(mem: Memoria){
-    
+    // Stats
 }
 
 // Não existe enum, não existe...
