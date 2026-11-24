@@ -7,7 +7,7 @@
 
 EMSCRIPTEN_BINDINGS(module){
     using namespace emscripten;
-    emscripten::function<void>("init_mem", &init_mem);
+    emscripten::function<Memoria>("create_memoria", &create_memoria);
     emscripten::function<Saida>("FirstFit", &FirstFit);
     emscripten::function<Saida>("BestFit", &BestFit);
     emscripten::function<Saida>("WorstFit", &WorstFit);

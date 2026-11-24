@@ -1,40 +1,37 @@
-Set-Location src/lib/cpp/escalonamento
+param(
+    [Parameter()]
+    [string]$remake = 'false',
+    [string]$delete_prev = 'false'
+)
 
-# Escalonamento
-emcmake cmake -B build
-cmake --build build
-mkdir -Force api/build
-Move-Item -Force build/Scheduler_wasm.js api/build
-Move-Item -Force build/Scheduler_wasm.wasm api/build
-# Não consegui fazer o cmake gerar com o nome certo, então tou renomeando aqui
-Move-Item -Force "build/-lScheduler_wasm.ts" api/build
-Move-Item -Force "api/build/-lScheduler_wasm.ts" api/build/Scheduler_wasm.ts
-Remove-Item -Recurse build/*
+function SO-build {
+    param (
+        [string]$fn_remake,
+        [string]$fn_delete_prev,
+        [string]$name
+    )
 
-Set-Location ../memoria
+    if ($fn_remake -eq 'true') {
+        emcmake cmake -B build
+    }
+    cmake --build build
+    mkdir -Force api/build
+    Move-Item -Force "build/$($name).js" api/build
+    Move-Item -Force "build/$($name).wasm" api/build
+    Move-Item -Force "build/-l$($name).ts" api/build
+    Move-Item -Force "api/build/-l$($name).ts" "api/build/$($name).ts"
+    if ($fn_delete_prev -eq 'true') {
+        Remove-Item -Recurse build/*
+    }
+}
 
-# Memória
-emcmake cmake -B build
-cmake --build build
-mkdir -Force api/build
-Move-Item -Force build/Memory_wasm.js api/build
-Move-Item -Force build/Memory_wasm.wasm api/build
-# Não consegui fazer o cmake gerar com o nome certo, então tou renomeando aqui
-Move-Item -Force "build/-lMemory_wasm.ts" api/build
-Move-Item -Force "api/build/-lMemory_wasm.ts" api/build/Memory_wasm.ts
-Remove-Item -Recurse build/*
+Set-Location src/lib/pages/escalonamento/cpp
+SO-build -fn_remake $remake -fn_delete_prev $delete_prev -name "Scheduler_wasm"
 
-Set-Location ../paginacao
+Set-Location ../../memoria/cpp
+SO-build -fn_remake $remake -fn_delete_prev $delete_prev "Memory_wasm"
 
-# Paginação
-emcmake cmake -B build
-cmake --build build
-mkdir -Force api/build
-Move-Item -Force build/Pages_wasm.js api/build
-Move-Item -Force build/Pages_wasm.wasm api/build
-# Não consegui fazer o cmake gerar com o nome certo, então tou renomeando aqui
-Move-Item -Force "build/-lPages_wasm.ts" api/build
-Move-Item -Force "api/build/-lPages_wasm.ts" api/build/Pages_wasm.ts
-Remove-Item -Recurse build/*
+Set-Location ../../paginacao/cpp
+SO-build -fn_remake $remake -fn_delete_prev $delete_prev "Pages_wasm"
 
-Set-Location ../../../..
+Set-Location ../../../../..

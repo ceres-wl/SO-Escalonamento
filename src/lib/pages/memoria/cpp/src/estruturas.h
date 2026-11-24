@@ -24,7 +24,7 @@ struct Memoria{
     int id_atual, ptr_next_fit; //ptr_next_fit representa o endereco apos o ultimo bloco alocado
 };
 
-void init_mem(Memoria &m, int tamanho);
+Memoria create_memoria(int tamanho);
 
 //struct com as informacoes da memoria a serem exibidas na saida
 struct Saida{

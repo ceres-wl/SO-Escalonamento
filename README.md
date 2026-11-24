@@ -1,5 +1,7 @@
 # SO-Escalonamento
 
+TODO atualizar README
+
 Um simulador de escalonamento de processos, com interface HTML e algoritmos escritos em c++. Esse projeto foi criado para a disciplina de Sistemas Operacionais do curso de Ciência da Computação da UFC.
 
 Os seguintes algoritmos de escalonamento estão implementados:

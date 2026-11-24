@@ -23,5 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 
-src/lib/cpp/build
-src/lib/cpp/api/build
+src/lib/pages/*/cpp/build

@@ -1,6 +1,5 @@
 // TypeScript bindings for emscripten-generated code.  Automatically generated at compile time.
 interface WasmModule {
-  _main(_0: number, _1: number): number;
 }
 
 export interface ClassHandle {
@@ -59,7 +58,7 @@ interface EmbindModule {
   vector<Bloco>: {
     new(): vector<Bloco>;
   };
-  init_mem(_0: Memoria, _1: number): void;
+  create_memoria(_0: number): Memoria;
   freeid(_0: Memoria, _1: number): boolean;
   freeaddr(_0: Memoria, _1: number): boolean;
   defrag(_0: Memoria, _1: Opcao): SaidaDefrag;

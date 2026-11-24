@@ -9,8 +9,8 @@ Bloco create_bloco(int id, int endereco, int tam, bool livre){
     return b;
 }
 
-void init_mem(Memoria &m, int tamanho)
-{
+Memoria create_memoria(int tamanho){
+    Memoria m;
     m.tam_total = tamanho;
     m.id_atual = 1;
     m.ptr_next_fit = 0;
@@ -19,4 +19,5 @@ void init_mem(Memoria &m, int tamanho)
     
     Bloco b = create_bloco(0, 0, tamanho, true);
     m.mem.push_back(b);
+    return m;
 }
