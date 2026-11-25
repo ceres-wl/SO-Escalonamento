@@ -1,4 +1,4 @@
-#include "pager.h"
+#include "eviccao.h"
 
 int prox_acesso(vector<pair<int, bool>>& trace, int pagina, int idx_atual){
     for(int i = idx_atual + 1 ; i < trace.size() ; i++){
@@ -8,7 +8,7 @@ int prox_acesso(vector<pair<int, bool>>& trace, int pagina, int idx_atual){
 }
 
 int otimo(GerenciadorMemoria& gerenciador, vector<pair<int, bool>>& trace, int idx_atual){
-    const vector<Frame>& v = gerenciador.frames;
+    vector<Frame>& v = gerenciador.frames;
     int escolhido = 0;
     int melhor = prox_acesso(trace, v[0].pagina, idx_atual);
 

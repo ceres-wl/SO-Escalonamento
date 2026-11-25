@@ -9,5 +9,9 @@ int selecionar_frame(ALGORITHM algo, GerenciadorMemoria &gerenciador, vector<pai
 int fifo(GerenciadorMemoria& gerenciador);
 int lru(GerenciadorMemoria& gerenciador);
 int otimo(GerenciadorMemoria& gerenciador, vector<pair<int, bool>>& trace, int idx_atual);
+int clock(GerenciadorMemoria& gerenciador);
+int nru(GerenciadorMemoria& gerenciador);
+int lfu(GerenciadorMemoria& gerenciador);
+int mfu(GerenciadorMemoria& gerenciador);
 
 #endif
