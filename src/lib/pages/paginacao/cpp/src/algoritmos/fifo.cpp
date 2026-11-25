@@ -1,7 +1,7 @@
-#include "pager.h"
+#include "eviccao.h"
 
 int fifo(GerenciadorMemoria& gerenciador){
-    const vector<Frame>& v = gerenciador.frames;
+    vector<Frame>& v = gerenciador.frames;
     int escolhido = 0;
 
     for(int i = 1; i < v.size(); i++){
