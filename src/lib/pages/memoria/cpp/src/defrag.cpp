@@ -152,7 +152,7 @@ SaidaDefrag defrag_opt(Memoria &memoria){
 SaidaDefrag defrag(Memoria &memoria, Opcao op){
     memoria.ptr_next_fit = 0;
     
-    if(memoria.mem.size() <= 1) return {0, 0};
+    if(memoria.mem.size() <= 1) return {0, 0, memoria};
 
     if(op == INIT){
         return defrag_init(memoria);

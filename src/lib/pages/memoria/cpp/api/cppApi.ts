@@ -1,51 +1,53 @@
-import { MemModule, setMemoria } from "../../context/memoria.svelte";
-import createModule, { type Memoria, type Opcao } from "./build/Memory_wasm";
+import { setMemoria } from "../../context/memoria.svelte";
+import createModule, { type Memoria } from "./build/Memory_wasm";
 
 // Teoricamente esperar essa promise desse jeito assim que o módulo carrega vai atrasar
 // o carregamento de qualquer componente que queira usar uma dessas funções, de forma desnecessária,
 // mas pro nosso caso aqui tá tudo bem, não vai nem ser perceptivel a demora
 
-export const create_memoria = MemModule.create_memoria;
+export const Module = await createModule();
+
+export const create_memoria = Module.create_memoria;
 
 export const FirstFit = (mem: Memoria, tam: number) =>{
-    const s = MemModule.FirstFit(mem, tam);
+    const s = Module.FirstFit(mem, tam);
     setMemoria(s.mem);
     return s;
 }
 export const BestFit = (mem: Memoria, tam: number) =>{
-    const s = MemModule.BestFit(mem, tam);
+    const s = Module.BestFit(mem, tam);
     setMemoria(s.mem);
     return s;
 }
 export const WorstFit = (mem: Memoria, tam: number) =>{
-    const s = MemModule.WorstFit(mem, tam);
+    const s = Module.WorstFit(mem, tam);
     setMemoria(s.mem);
     return s;
 }
 export const NextFit = (mem: Memoria, tam: number) =>{
-    const s = MemModule.NextFit(mem, tam);
+    const s = Module.NextFit(mem, tam);
     setMemoria(s.mem);
     return s;
 }
 
 export const freeid = (mem: Memoria, id: number) =>{
-    const s = MemModule.freeid(mem, id);
+    const s = Module.freeid(mem, id);
     setMemoria(s.mem);
     return s;
 }
 export const freeaddr = (mem: Memoria, addr: number) =>{
-    const s = MemModule.freeaddr(mem, addr);
+    const s = Module.freeaddr(mem, addr);
     setMemoria(s.mem);
     return s;
 }
 
 export const defrag = (mem: Memoria, opc: 0 | 1 | 2) =>{
-    const s = MemModule.defrag(mem, {value: opc});
+    const s = Module.defrag(mem, {value: opc});
     setMemoria(s.mem);
     return s;
 };
 
-export const gerar_saida = MemModule.gerar_saida;
+export const gerar_saida = Module.gerar_saida;
 
 export type AllocAlgs = "first" | "best" | "worst" | "next";
 
@@ -77,7 +79,7 @@ export function alloc(mem: Memoria, tamanho: number, algo: AllocAlgs){
 // Por incrivel q pareça, essa é uma das funções mais bonitas que eu já escrevi na vida
 export function show(mem: Memoria){
     // Mostrar memória
-    const saida = MemModule.gerar_saida(mem, true);
+    const saida = Module.gerar_saida(mem, true);
     
     const repeatChar = (char: string, n: number) =>{
         return (new Array(n)).fill(undefined)
@@ -99,7 +101,7 @@ ${repeatChar("-", saida.mem.tam_total+2)}
 
 export function stats(mem: Memoria){
     // Stats
-    const saida = MemModule.gerar_saida(mem, true);
+    const saida = Module.gerar_saida(mem, true);
 
     return(
 // TODO essa primeira linha fica numa linha só mesmo? o que é o +? qual a diferença do + pro (usado=)

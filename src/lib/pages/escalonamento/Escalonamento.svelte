@@ -11,9 +11,8 @@
     import type { Algo, DataPointEscalonamento, InfoToCopy, Metrics } from "./types";
     import { formatData } from "./utils/formatData";
     import { printTabela } from "./utils/tabela";
-    import { getDisableAnimation, setDisableAnimation } from "../../context/disableAnimation";
+    import { getDisableAnimation } from "../../context/disableAnimation";
     import type { Saida } from "./cpp/api/build/Scheduler_wasm";
-    import SchedulingIcon from '../../../assets/scheduling_nobg.webp';
     import External from '~icons/fa-solid/external-link-alt'
     import CommonDiv from "../../components/CommonDiv.svelte";
 
@@ -23,9 +22,6 @@
     let simulated = $state(false);
     let delaySimul = $state(500);
     let algoSelected: Algo = $state("FCFS");
-
-    let disableAnimation = $state(false);
-    setDisableAnimation(() => disableAnimation);
 
     let infoToCopy: InfoToCopy = $state();
 
@@ -85,16 +81,6 @@
 -->
 
 <div class="main">
-    <div class="header">
-        <div class="flex-center">
-            <img class="pixelated" src={SchedulingIcon} alt="Icone de temporizador">
-            <h1>Simulação de escalonamento</h1>
-        </div>
-        
-        <label> Desativar animações
-            <input type="checkbox" bind:checked={disableAnimation} >
-        </label>
-    </div>
     <GenerateProcs bind:simulated />
     <form onsubmit={handleSimulateMethod} class="inputs">
         <div class="flex-row-responsive">
@@ -154,36 +140,9 @@
         padding: 0.5rem;
     }
 
-    .header{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        color: white;
-
-        h1{
-            display: inline;
-            font-size: 2rem;
-        }
-        img{
-            height: 4rem;
-            display: inline;
-        }
-    }
-
     .inputs{
         display: flex;
         flex-direction: column;
         gap: 5px;
-    }
-
-    .flex-row-responsive{
-        display: flex;
-        flex-direction: row;
-        gap: 5px;
-
-        @media screen and (max-width: 48em) {
-            flex-direction: column;
-        }
     }
 </style>

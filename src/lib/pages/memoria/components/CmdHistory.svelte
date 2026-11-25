@@ -5,14 +5,13 @@
 
     interface Props{
         cmdHistory: Array<Command>;
-        memoria: Memoria;
         curCmd: number;
         clearMemory: () => void;
         runCommand: (cmd: Command) => void;
         setOutput: (output: string) => void;
     }
     
-    let {cmdHistory = $bindable(), curCmd = $bindable(), memoria = $bindable(), runCommand, setOutput, clearMemory}: Props = $props();
+    let {cmdHistory = $bindable(), curCmd = $bindable(), runCommand, setOutput, clearMemory}: Props = $props();
 
     function setCurCommandIndex(index: number){
         if(index < -1 || index >= cmdHistory.length) return;
@@ -55,6 +54,7 @@
     <button onclick={() => {
         cmdHistory = [];
         curCmd = -1;
+        setOutput("");
         clearMemory();
     }}>Deletar todos</button>
     <button onclick={() => {

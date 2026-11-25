@@ -1,21 +1,15 @@
 <script lang="ts">
     import { Axis, BarChart, Polygon, Text, Tooltip } from "layerchart";
     import type { DataPoint } from "../../../../types";
-    import type { Memoria } from "../../cpp/api/build/Memory_wasm";
     import { hashedHexColor, resetSeed } from "../../../../utils/randomColor";
-
-    interface Props{
-        mem: Memoria;
-    }
-
-    const { mem }: Props = $props();
+    import { memoria } from "../../context/memoria.svelte";
 
     interface DataPointMem extends DataPoint{
         livre: boolean;
         tamanho: number;
     }
     
-    const data: Array<DataPointMem> = $derived(Array.from(mem.mem)
+    const data: Array<DataPointMem> = $derived(Array.from(memoria.mem)
         .map((bloco) =>{
             return {
                 id: bloco.id.toString(),
@@ -71,7 +65,7 @@
     }}
 >
 	{#snippet axis({ context })}
-		<Axis placement="bottom" tickLength={1} ticks={data.map((e) => e.start).concat([mem.tam_total])}>
+		<Axis placement="bottom" tickLength={1} ticks={data.map((e) => e.start).concat([memoria.tam_total])}>
 			{#snippet tickLabel({ props })}
 				<Text {...props} textAnchor={props.value === '40' ? 'end' : 'start'} />
 			{/snippet}
@@ -80,7 +74,7 @@
 
 	{#snippet aboveMarks({ context })}
 		<Polygon
-			cx={context.xScale(mem.ptr_next_fit)}
+			cx={context.xScale(memoria.ptr_next_fit)}
 			cy={-3}
 			r={6}
 			points={3}

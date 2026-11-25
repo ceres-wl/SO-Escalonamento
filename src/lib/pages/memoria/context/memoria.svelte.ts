@@ -1,14 +1,10 @@
 // Módulo que contém só os dados de configuração
 
-import createModule, { type Memoria } from "../cpp/api/build/Memory_wasm";
-import { create_memoria } from "../cpp/api/cppApi";
-
-// kinda HACK but whatever i dont care!!!!!!!!!!!!!!
-export const PromiseModule = createModule();
-export const MemModule = await PromiseModule;
+import type { Memoria } from "../cpp/api/build/Memory_wasm";
+import { Module } from "../cpp/api/cppApi";
 
 // Não dê reassign nessa variável diretamente, use o método setMemoria
-export let memoria: Memoria = $state(MemModule.create_memoria(0));
+export let memoria: Memoria = $state(Module.create_memoria(0));
 
 // HACK pra dizer que a memória não tá inicializada,
 // não posso usar null pq é um saco fzr a tipagem certa com o esmcripten

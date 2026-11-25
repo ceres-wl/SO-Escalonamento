@@ -2,25 +2,32 @@
     import Escalonamento from "./lib/pages/escalonamento/Escalonamento.svelte";
     import Paginacao from "./lib/pages/paginacao/Paginacao.svelte";
     import Memoria from "./lib/pages/memoria/Memoria.svelte";
+    import Header from "./lib/components/Header.svelte";
+    import { setDisableAnimation } from "./lib/context/disableAnimation";
 
-    let selected: "Escalonamento" | "Paginacao" | "Memoria" = "Memoria";
+    let selected: "Escalonamento" | "Paginação" | "Memória" = $state("Memória");
+
+    let disableAnimation = $state(false);
+    setDisableAnimation(() => disableAnimation);
 </script>
 
 <!-- TODO Ver os elementos certos pra isso dps -->
 <nav>
     <!-- TODO estilizar isso aqui -->
     <button onclick={() => selected = "Escalonamento"}>Escalonamento</button>
-    <button onclick={() => selected = "Paginacao"}>Paginação</button>
-    <button onclick={() => selected = "Memoria"}>Memória</button>
+    <button onclick={() => selected = "Paginação"}>Paginação</button>
+    <button onclick={() => selected = "Memória"}>Memória</button>
 </nav>
 <main>
+    <!-- TODO icone pra simulação de memória e paginação -->
+    <Header page={selected} bind:disableAnimation/>
     <div class={selected!="Escalonamento"?"hide":null}>
         <Escalonamento/>
     </div>
-    <div class={selected!="Paginacao"?"hide":null}>
+    <div class={selected!="Paginação"?"hide":null}>
         <Paginacao/>
     </div>
-    <div class={selected!="Memoria"?"hide":null}>
+    <div class={selected!="Memória"?"hide":null}>
         <Memoria/>
     </div>
 </main>
@@ -93,5 +100,15 @@
 
     :global(.pixelated){
         image-rendering: pixelated;
+    }
+
+    :global(.flex-row-responsive){
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+
+        @media screen and (max-width: 48em) {
+            flex-direction: column;
+        }
     }
 </style>
