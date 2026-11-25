@@ -22,9 +22,9 @@ Saida gerar_saida(Memoria &memoria, bool alocacao_valida){
         buracos,
         maior_livre,
         (double)(tam_ocupado) / memoria.tam_total, 
-        alocacao_valida
+        alocacao_valida,
+        memoria
     };
 
-    s.mem = memoria;
     return s;
 }

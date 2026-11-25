@@ -84,7 +84,7 @@
         se sobrar tempo, fazer uma forma do usuário clicar e mostrar a timeline individual do algoritmo que ele clicar nessa área tbm
 -->
 
-<main>
+<div class="main">
     <div class="header">
         <div class="flex-center">
             <img class="pixelated" src={SchedulingIcon} alt="Icone de temporizador">
@@ -121,15 +121,12 @@
         </p>
         <p><a target="_blank" href="https://github.com/ceres-wl/SO-Escalonamento">Link para o Repositório <External/></a></p>
     </footer>
-</main>
+</div>
 
 <style>
     @import 'layerchart/core.css';
 
-    main{
-        max-width: 120ch;
-        margin: 0 auto;
-
+    .main{
         display: flex;
         flex-direction: column;
         gap: 5px;

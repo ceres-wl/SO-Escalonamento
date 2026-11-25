@@ -13,7 +13,7 @@
     <button onclick={() => selected = "Paginacao"}>Paginação</button>
     <button onclick={() => selected = "Memoria"}>Memória</button>
 </nav>
-<div>
+<main>
     <div class={selected!="Escalonamento"?"hide":null}>
         <Escalonamento/>
     </div>
@@ -23,9 +23,14 @@
     <div class={selected!="Memoria"?"hide":null}>
         <Memoria/>
     </div>
-</div>
+</main>
 
 <style>
+    main{
+        max-width: 120ch;
+        margin: 0 auto;
+    }
+
     .hide{
         display: none;
     }

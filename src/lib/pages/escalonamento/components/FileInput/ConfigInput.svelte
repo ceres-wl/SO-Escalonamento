@@ -8,7 +8,7 @@
 
     let { simulated = $bindable() }: Props = $props();
 
-    async function handleConfigFile(files: FileList){
+    async function handleConfigFile(files: FileList | null){
         if(!files || !files[0]) return;
         const txt = await files[0].text();
 
