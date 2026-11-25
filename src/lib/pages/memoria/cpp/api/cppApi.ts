@@ -39,8 +39,8 @@ export const freeaddr = (mem: Memoria, addr: number) =>{
     return s;
 }
 
-export const defrag = (mem: Memoria, opc: Opcao) =>{
-    const s = MemModule.defrag(mem, opc);
+export const defrag = (mem: Memoria, opc: 0 | 1 | 2) =>{
+    const s = MemModule.defrag(mem, {value: opc});
     setMemoria(s.mem);
     return s;
 };
@@ -84,18 +84,14 @@ export function show(mem: Memoria){
         .map(() => char).join("");
     }
 
-    const blocosCheios = Array.from(saida.mem.mem)
-    .filter(bloco => !bloco.livre)
-    .map(bloco => {
-        return {id: bloco.id, tam: bloco.tamanho}
-    });
+    const blocos = Array.from(saida.mem.mem);
     
     return( 
 `
 Mapa de Memória (${saida.mem.tam_total} bytes)
 ${repeatChar("-", saida.mem.tam_total+2)}
-[${blocosCheios.map(bloco => repeatChar("#", bloco.tam)).join("")}${repeatChar(".", saida.livre)}]
-[${blocosCheios.map(bloco => repeatChar(bloco.id.toString(), bloco.tam)).join("")}${repeatChar(".", saida.livre)}]
+[${blocos.map(bloco => repeatChar(bloco.livre?".":"#", bloco.tamanho)).join("")}]
+[${blocos.map(bloco => repeatChar(bloco.livre?".":bloco.id.toString(), bloco.tamanho)).join("")}]
 ${repeatChar("-", saida.mem.tam_total+2)}
 `
     )

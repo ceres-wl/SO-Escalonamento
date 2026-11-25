@@ -37,25 +37,30 @@
         <ol>
         <li><p class={curCmd==-1?"current-command":null}>Sem comandos...</p></li>
         {#each cmdHistory as cmd, i(i)}
-        <!-- TODO botão para saltar pro comando atual -->
             <li class={curCmd==i?"current-command":null}>
                 <details>
                     <summary>{cmd.cmd} {cmd.args.join(" ")}</summary>
-                    <p>{cmd.output}</p>
+                    <p class="output">{@html cmd.output.replace(/(\r\n|\r|\n)/ig, "<br>")}</p>
                 </details>
+                <button onclick={() => setCurCommandIndex(i)}>Saltar aqui</button>
             </li>
         {/each}
         </ol>
     </div>
 
     <!-- TODO pensar se eu quero fazer a tal da reprodução automática -->
-    <button onclick={() => setCurCommandIndex(curCmd+1)}>Avançar</button>
     <button onclick={() => setCurCommandIndex(curCmd-1)}>Voltar</button>
+    <button onclick={() => setCurCommandIndex(curCmd+1)}>Avançar</button>
     <button onclick={() => setCurCommandIndex(-1)}>Reiniciar</button>
     <button onclick={() => {
         cmdHistory = [];
+        curCmd = -1;
         clearMemory();
     }}>Deletar todos</button>
+    <button onclick={() => {
+        cmdHistory.pop();
+        setCurCommandIndex(cmdHistory.length-1);
+    } }>Deletar ultimo</button>
 </CommonDiv>
 
 <style>

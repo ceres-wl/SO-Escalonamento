@@ -33,8 +33,17 @@
         resetSeed();
     });
 
-    function getYDomain(data: Array<DataPoint>){
-        return data.map((data) => data.id);
+    function getColorDomain(data: Array<DataPoint>){
+        const set: Set<string> = new Set();
+        for(let point of data) set.add(point.id);
+        const cDomain = Array.from(set.values());
+        const cRange = cDomain.map((e) => e=="0"?"#000000":hashedHexColor(e));
+            
+        return {
+            c: "id",
+            cDomain,
+            cRange
+        }
     }
 
 </script>
@@ -45,9 +54,7 @@
 	y={(d) => 1}
 	xBaseline={null}
 	xNice={false}
-	c="id"
-    cDomain={getYDomain(data)}
-	cRange={data.map((e) => e.livre?"#000000":hashedHexColor(e.id))}
+    {...getColorDomain(data)}
 	bandPadding={0}
 	padding={{ top: 12, bottom: 12 }}
 	orientation="horizontal"

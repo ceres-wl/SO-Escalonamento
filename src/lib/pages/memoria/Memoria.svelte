@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { Opcao } from "./cpp/api/build/Memory_wasm";
     import { alloc, create_memoria, defrag, freeaddr, freeid, opcao, show, stats, type AllocAlgs } from "./cpp/api/cppApi";
     import { memoria, setMemoria } from "./context/memoria.svelte";
     import MemoryChart from "./components/charts/MemoryChart.svelte";
@@ -69,7 +68,7 @@
                 if(memoria.id_atual == Infinity) throw new Error("Memória não inicializada!");
                 if(!opcao.has(cmd.args[0])) throw new Error("Opção inválida!");
 
-                defrag(memoria, opcao.get(cmd.args[0]) as unknown as Opcao);
+                defrag(memoria, opcao.get(cmd.args[0]) as 0|1|2);
 
                 cmd.output = "";
                 break;
@@ -78,16 +77,27 @@
         }
     }
 
-    function handleFiles(f: FileList | null){
+    async function handleFiles(files: FileList | null){
+        if(!files || !files[0]) return;
+        const txt = await files[0].text();
 
+        const lines = txt.split("\n");
+
+        // kinda HACKy but ok
+        const oldCliInput = cliInput;
+        for(let line of lines){
+            cliInput = line.trim();
+            handleSubmit();
+        }
+        cliInput = oldCliInput;
     }
 
-    function handleSubmit(e: SubmitEvent){
-        e.preventDefault();
+    function handleSubmit(e?: SubmitEvent){
+        e?.preventDefault();
 
         // TODO arrow up e down pra selecionar histórico de comandos
 
-        const tokens = cliInput.toLowerCase().split(/[ ]{1,}/);
+        const tokens = cliInput.trim().toLowerCase().split(/[ ]{1,}/);
         const action = tokens.shift() as string;
 
         const cmd: Command = {
@@ -138,7 +148,7 @@
 </main>
 
 <style>
-    .output{
+    :global(.output){
         word-break: break-all;
         font-family: 'Courier New', Courier, monospace;
     }
