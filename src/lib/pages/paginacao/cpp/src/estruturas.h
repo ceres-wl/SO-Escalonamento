@@ -21,8 +21,8 @@ struct VerboseInfo{
     int pag_ref;
     vector<int> cur_frames;
     bool hit;
-    int removed;
-    bool escrita;
+    int removed = -1;
+    bool escrita = 0;
 };
 
 //informacoes exibidas na saida
@@ -30,10 +30,10 @@ struct Saida{
     ALGORITHM algo;
     int frames;
     int referencias;
-    int page_fault;
+    int page_fault = 0;
     double fault_ratio;
-    int evictions;
-    int disk_writes;
+    int evictions = 0;
+    int disk_writes = 0;
     vector<int> frame_ids;  
     vector<int> page_ids; 
     vector<VerboseInfo> verb_info;
@@ -52,7 +52,6 @@ struct Frame{
 struct GerenciadorMemoria{
     vector<Frame> frames;
     int ponteiro_clock = 0; //mudar a cada eviccao
-    int total_acessos = 0;
 };
 
 // trace - 0: leitura; 1: escrita
