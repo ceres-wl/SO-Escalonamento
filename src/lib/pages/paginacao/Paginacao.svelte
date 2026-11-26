@@ -1,22 +1,31 @@
 <script lang="ts">
-    let algorithm = "FIFO";
-    let verbose = false;
+    import { pager, type ALGORITHM } from "./cpp/api/cppApi";
+
+    let algorithm: ALGORITHM = $state("FIFO");
+    let num_frames = $state(3);
+    let verbose = $state(false);
+
+    function onSubmit(e: SubmitEvent){
+        e.preventDefault();
+
+        const saida: Saida = pager(algorithm, );
+    }
 </script>
 
 <main>
-    <form>
+    <form onsubmit={onSubmit}>
         <label>Número de frames
-            <input type="number">
+            <input type="number" bind:value={num_frames}>
         </label>
         <label>Algoritmo
             <select bind:value={algorithm}>
-                <option value="fifo">FIFO</option>
-                <option value="lru">LRU</option>
-                <option value="opt">Ótimo</option>
-                <option value="clock">Clock</option>
-                <option value="nru">NRU</option>
-                <option value="lfu">LFU</option>
-                <option value="mfu">MFU</option>
+                <option value="FIFO">FIFO</option>
+                <option value="LRU">LRU</option>
+                <option value="OTIMO">Ótimo</option>
+                <option value="CLOCK">Clock</option>
+                <option value="NRU">NRU</option>
+                <option value="LFU">LFU</option>
+                <option value="MFU">MFU</option>
             </select>
         </label>
         <!-- TODO dragndrop de arquivo -->

@@ -4,11 +4,11 @@
 #include "../estruturas.h"
 
 //retorna o indice do frame escolhido
-int selecionar_frame(ALGORITHM algo, GerenciadorMemoria &gerenciador, vector<pair<int, bool>>& trace, int idx_atual);
+int selecionar_frame(ALGORITHM algo, GerenciadorMemoria &gerenciador, vector<PairIB>& trace, int idx_atual);
 
 int fifo(GerenciadorMemoria& gerenciador);
 int lru(GerenciadorMemoria& gerenciador);
-int otimo(GerenciadorMemoria& gerenciador, vector<pair<int, bool>>& trace, int idx_atual);
+int otimo(GerenciadorMemoria& gerenciador, vector<PairIB>& trace, int idx_atual);
 int clock(GerenciadorMemoria& gerenciador);
 int nru(GerenciadorMemoria& gerenciador);
 int lfu(GerenciadorMemoria& gerenciador);

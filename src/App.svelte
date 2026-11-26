@@ -5,7 +5,7 @@
     import Header from "./lib/components/Header.svelte";
     import { setDisableAnimation } from "./lib/context/disableAnimation";
 
-    let selected: "Escalonamento" | "Paginação" | "Memória" = $state("Memória");
+    let selected: "Escalonamento" | "Paginação" | "Memória" = $state("Paginação");
 
     let disableAnimation = $state(false);
     setDisableAnimation(() => disableAnimation);

@@ -54,7 +54,14 @@ struct GerenciadorMemoria{
     int ponteiro_clock = 0; //mudar a cada eviccao
 };
 
+// Emscripten não tem um bind fácil pra pair,
+// então fica mais fácil usar um struct custom
+struct PairIB{
+    int first;
+    bool second;
+};
+
 // trace - 0: leitura; 1: escrita
-Saida pager(ALGORITHM algo, int frame_num, vector<pair<int, bool>> trace, bool verbose);
+Saida pager(ALGORITHM algo, int frame_num, vector<PairIB> trace, bool verbose);
 
 #endif

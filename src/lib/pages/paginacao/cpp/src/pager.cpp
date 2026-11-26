@@ -15,7 +15,7 @@ int buscar_frame_livre(vector<Frame> &frames){
     return -1;
 }
 
-Saida pager(ALGORITHM algo, int frame_num, vector<pair<int, bool>> trace, bool verbose){
+Saida pager(ALGORITHM algo, int frame_num, vector<PairIB> trace, bool verbose){
     GerenciadorMemoria gerenciador;
     vector<Frame> &frames = gerenciador.frames;
 

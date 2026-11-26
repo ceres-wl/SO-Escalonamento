@@ -1,5 +1,5 @@
 import { setMemoria } from "../../context/memoria.svelte";
-import createModule, { type Memoria } from "./build/Memory_wasm";
+import createModule, { type Memoria, type Opcao, type OpcaoValue } from "./build/Memory_wasm";
 
 // Teoricamente esperar essa promise desse jeito assim que o módulo carrega vai atrasar
 // o carregamento de qualquer componente que queira usar uma dessas funções, de forma desnecessária,
@@ -41,8 +41,8 @@ export const freeaddr = (mem: Memoria, addr: number) =>{
     return s;
 }
 
-export const defrag = (mem: Memoria, opc: 0 | 1 | 2) =>{
-    const s = Module.defrag(mem, {value: opc});
+export const defrag = (mem: Memoria, opc: Opcao) =>{
+    const s = Module.defrag(mem, opc);
     setMemoria(s.mem);
     return s;
 };
@@ -119,7 +119,7 @@ Uso efetivo: ${saida.uso_efetivo*100}%
 
 // Não existe enum, não existe...
 export const opcao = new Map([
-    ["init", 0],
-    ["end", 1],
-    ["opt", 2]
+    ["init", { value: Module.Opcao.INIT.value } ],
+    ["end", { value: Module.Opcao.END.value } ],
+    ["opt", { value: Module.Opcao.OPT.value } ]
 ]);

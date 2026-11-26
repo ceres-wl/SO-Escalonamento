@@ -1,6 +1,6 @@
 #include "eviccao.h"
 
-int selecionar_frame(ALGORITHM algo, GerenciadorMemoria& gerenciador, vector<pair<int, bool>>& trace, int idx_atual) {
+int selecionar_frame(ALGORITHM algo, GerenciadorMemoria& gerenciador, vector<PairIB>& trace, int idx_atual) {
     switch(algo){
         case FIFO:
             return fifo(gerenciador);

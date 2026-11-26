@@ -54,9 +54,10 @@ export function runCommand(cmd: Command){
             break;
         case "defrag":
             if(memoria.id_atual == Infinity) throw new Error("Memória não inicializada!");
-            if(!opcao.has(cmd.args[0])) throw new Error("Opção inválida!");
+            const opc = opcao.get(cmd.args[0]);
+            if(!opc) throw new Error("Opção inválida!");
 
-            defrag(memoria, opcao.get(cmd.args[0]) as 0|1|2);
+            defrag(memoria, opc);
 
             cmd.output = "";
             break;
