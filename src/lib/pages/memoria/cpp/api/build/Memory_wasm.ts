@@ -16,7 +16,7 @@ export interface OpcaoValue<T extends number> {
 }
 export type Opcao = OpcaoValue<0>|OpcaoValue<1>|OpcaoValue<2>;
 
-export interface vector<Bloco> extends ClassHandle, Iterable<Bloco> {
+export interface VectorBloco extends ClassHandle, Iterable<Bloco> {
   push_back(_0: Bloco): void;
   resize(_0: number, _1: Bloco): void;
   size(): number;
@@ -33,7 +33,7 @@ export type Bloco = {
 
 export type Memoria = {
   tam_total: number,
-  mem: vector<Bloco>,
+  mem: VectorBloco,
   id_atual: number,
   ptr_next_fit: number
 };
@@ -62,8 +62,8 @@ export type Saida = {
 
 interface EmbindModule {
   Opcao: {INIT: OpcaoValue<0>, END: OpcaoValue<1>, OPT: OpcaoValue<2>};
-  vector<Bloco>: {
-    new(): vector<Bloco>;
+  VectorBloco: {
+    new(): VectorBloco;
   };
   create_memoria(_0: number): Memoria;
   freeid(_0: Memoria, _1: number): SaidaFree;

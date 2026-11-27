@@ -53,5 +53,5 @@ EMSCRIPTEN_BINDINGS(module){
         .value("END", Opcao::END)
         .value("OPT", Opcao::OPT);
 
-    register_vector<Bloco>("vector<Bloco>");
+    register_vector<Bloco>("VectorBloco");
 }

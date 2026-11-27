@@ -53,7 +53,7 @@ EMSCRIPTEN_BINDINGS(module){
     //     .field("frames", &GerenciadorMemoria::frames)
     //     .field("ponteiro_clock", &GerenciadorMemoria::ponteiro_clock);
 
-    register_vector<int>("vector<int>");
-    register_vector<PairIB>("vector<PairIB>");
-    register_vector<VerboseInfo>("vector<VerboseInfo>");
+    register_vector<int>("VectorInt");
+    register_vector<PairIB>("VectorPairIB");
+    register_vector<VerboseInfo>("VectorVerboseInfo");
 }

@@ -11,7 +11,7 @@ export interface ClassHandle {
   [Symbol.dispose](): void;
   clone(): this;
 }
-export interface vector<Proc> extends ClassHandle, Iterable<Proc> {
+export interface VectorProc extends ClassHandle, Iterable<Proc> {
   push_back(_0: Proc): void;
   resize(_0: number, _1: Proc): void;
   size(): number;
@@ -19,7 +19,7 @@ export interface vector<Proc> extends ClassHandle, Iterable<Proc> {
   set(_0: number, _1: Proc): boolean;
 }
 
-export interface vector<int> extends ClassHandle, Iterable<number> {
+export interface VectorInt extends ClassHandle, Iterable<number> {
   push_back(_0: number): void;
   resize(_0: number, _1: number): void;
   size(): number;
@@ -49,16 +49,16 @@ export type Saida = {
   tt: number,
   tw: number,
   trocas_contexto: number,
-  diagrama_tempo: vector<int>
+  diagrama_tempo: VectorInt
 };
 
 interface EmbindModule {
-  vector<Proc>: {
-    new(): vector<Proc>;
+  VectorProc: {
+    new(): VectorProc;
   };
-  get_procs(): vector<Proc> | null;
-  vector<int>: {
-    new(): vector<int>;
+  get_procs(): VectorProc | null;
+  VectorInt: {
+    new(): VectorInt;
   };
   clear_procs(): void;
   set_config(_0: number, _1: number): void;

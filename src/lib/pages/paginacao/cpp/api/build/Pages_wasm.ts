@@ -16,7 +16,7 @@ export interface ALGORITHMValue<T extends number> {
 }
 export type ALGORITHM = ALGORITHMValue<0>|ALGORITHMValue<1>|ALGORITHMValue<2>|ALGORITHMValue<3>|ALGORITHMValue<4>|ALGORITHMValue<5>|ALGORITHMValue<6>;
 
-export interface vector<int> extends ClassHandle, Iterable<number> {
+export interface VectorInt extends ClassHandle, Iterable<number> {
   push_back(_0: number): void;
   resize(_0: number, _1: number): void;
   size(): number;
@@ -24,7 +24,7 @@ export interface vector<int> extends ClassHandle, Iterable<number> {
   set(_0: number, _1: number): boolean;
 }
 
-export interface vector<PairIB> extends ClassHandle, Iterable<PairIB> {
+export interface VectorPairIB extends ClassHandle, Iterable<PairIB> {
   push_back(_0: PairIB): void;
   resize(_0: number, _1: PairIB): void;
   size(): number;
@@ -32,7 +32,7 @@ export interface vector<PairIB> extends ClassHandle, Iterable<PairIB> {
   set(_0: number, _1: PairIB): boolean;
 }
 
-export interface vector<VerboseInfo> extends ClassHandle, Iterable<VerboseInfo> {
+export interface VectorVerboseInfo extends ClassHandle, Iterable<VerboseInfo> {
   push_back(_0: VerboseInfo): void;
   resize(_0: number, _1: VerboseInfo): void;
   size(): number;
@@ -43,7 +43,7 @@ export interface vector<VerboseInfo> extends ClassHandle, Iterable<VerboseInfo> 
 export type VerboseInfo = {
   passo: number,
   pag_ref: number,
-  cur_frames: vector<int>,
+  cur_frames: VectorInt,
   hit: boolean,
   removed: number,
   escrita: boolean
@@ -62,23 +62,23 @@ export type Saida = {
   fault_ratio: number,
   evictions: number,
   disk_writes: number,
-  frame_ids: vector<int>,
-  page_ids: vector<int>,
-  verb_info: vector<VerboseInfo>
+  frame_ids: VectorInt,
+  page_ids: VectorInt,
+  verb_info: VectorVerboseInfo
 };
 
 interface EmbindModule {
   ALGORITHM: {FIFO: ALGORITHMValue<0>, LRU: ALGORITHMValue<1>, OTIMO: ALGORITHMValue<2>, CLOCK: ALGORITHMValue<3>, NRU: ALGORITHMValue<4>, LFU: ALGORITHMValue<5>, MFU: ALGORITHMValue<6>};
-  vector<int>: {
-    new(): vector<int>;
+  VectorInt: {
+    new(): VectorInt;
   };
-  vector<PairIB>: {
-    new(): vector<PairIB>;
+  VectorPairIB: {
+    new(): VectorPairIB;
   };
-  vector<VerboseInfo>: {
-    new(): vector<VerboseInfo>;
+  VectorVerboseInfo: {
+    new(): VectorVerboseInfo;
   };
-  pager(_0: ALGORITHM, _1: number, _2: vector<PairIB>, _3: boolean): Saida;
+  pager(_0: ALGORITHM, _1: number, _2: VectorPairIB, _3: boolean): Saida;
 }
 
 export type MainModule = WasmModule & EmbindModule;

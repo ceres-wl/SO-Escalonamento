@@ -98,6 +98,6 @@ EMSCRIPTEN_BINDINGS(module){
         .field("tempo_espera", &Proc::tempo_espera)
         .field("tempo_vida", &Proc::tempo_vida);
 
-    register_vector<Proc>("vector<Proc>");
-    register_vector<int>("vector<int>");
+    register_vector<Proc>("VectorProc");
+    register_vector<int>("VectorInt");
 }

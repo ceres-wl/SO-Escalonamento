@@ -20,6 +20,10 @@
 
         const tokens = cliInput.trim().toLowerCase().split(/[ ]{1,}/);
         const action = tokens.shift() as string;
+        
+        cliInput = "";
+
+        if(action == "#") return;
 
         const cmd: Command = {
             args: tokens,
@@ -33,7 +37,6 @@
             if(!(e instanceof Error)) return;
             cmd.output = "Erro: "+e.message;
         }finally{
-            cliInput = "";
             output = cmd.output;
             cmdHistory.push(cmd);
             curCmd = cmdHistory.length-1;
