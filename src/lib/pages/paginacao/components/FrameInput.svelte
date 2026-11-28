@@ -59,7 +59,7 @@
     }
 </script>
 
-<div>
+<div class="main">
     <CommonDiv>
         <h2>Adicionar trace</h2>
         <DragAndDrop {handleFiles}/>
@@ -116,6 +116,12 @@
 </div>
 
 <style>
+    .main{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
     .table-div{
         display: flex;
         justify-content: center;

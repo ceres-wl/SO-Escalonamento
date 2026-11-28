@@ -75,8 +75,8 @@
 	{#snippet aboveMarks({ context })}
 		<Polygon
 			cx={context.xScale(memoria.ptr_next_fit)}
-			cy={-3}
-			r={6}
+			cy={-4}
+			r={8}
 			points={3}
 			rotate={90}
 			class="mark"
@@ -99,6 +99,8 @@
 
 <style>
     :global(.mark){
-        color: white;
+        color: black;
+        stroke: var(--color-accent);
+        stroke-width: 2px;
     }
 </style>

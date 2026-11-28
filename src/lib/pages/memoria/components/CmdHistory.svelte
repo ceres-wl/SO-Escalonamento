@@ -32,14 +32,22 @@
 <CommonDiv>
     <h2>Histórico de comandos</h2>
 
-    <div class="cmd-history">
-        <ol>
-        <li><p class={curCmd==-1?"current-command":null}>Sem comandos...</p></li>
+    <div class="flex-center">
+        <ol class="cmd-history">
+        <li>
+            <p class={["command", "init-command", curCmd==-1?"current-command":null]}>Sem comandos...</p>
+        </li>
         {#each cmdHistory as cmd, i(i)}
-            <li class={curCmd==i?"current-command":null}>
+            <li class={["command", curCmd==i?"current-command":null]}>
                 <details>
                     <summary>{cmd.cmd} {cmd.args.join(" ")}</summary>
-                    <p class="output">{@html cmd.output.replace(/(\r\n|\r|\n)/ig, "<br>")}</p>
+                    <p class="output">
+                        {#if cmd.output== ""}
+                            Sem output
+                        {:else}
+                        {@html cmd.output.replace(/(\r\n|\r|\n)/ig, "<br>")}
+                        {/if}
+                    </p>
                 </details>
                 <button onclick={() => setCurCommandIndex(i)}>Saltar aqui</button>
             </li>
@@ -64,10 +72,39 @@
 </CommonDiv>
 
 <style>
-    
+    .command{
+        background-color: var(--color-secondary);
+        font-weight: bold;
+        font-size: 1.3rem;
+
+        button{
+            margin-top: -5px;
+            width: 100%;
+        }
+    }
+
+    summary{
+        padding: 0.5rem;
+
+        cursor: pointer;
+        &:hover{
+            background-color: var(--color-input-bg-hover);
+        }
+    }
 
     .current-command{
-        background-color: green;
+        background-color: var(--color-accent);
         color: white;
+    }
+
+    .cmd-history{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    ol{
+        list-style-type: none;
+        margin-top: 0;
     }
 </style>

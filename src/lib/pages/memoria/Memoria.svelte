@@ -48,7 +48,9 @@
     <!-- TODO pensar o layout q eu qro pra isso aq -->
     <!-- TODO div com explicações de como usa? -->
     <div class="flex-row-responsive">
-        <CmdFileInput {handleSubmit} bind:cliInput/>
+        <div class="mem-file-input">
+            <CmdFileInput {handleSubmit} bind:cliInput/>
+        </div>
         <div class="terminal">
             <CommonDiv>
                 <form onsubmit={handleSubmit}>
@@ -67,14 +69,37 @@
     <CmdHistory bind:cmdHistory bind:curCmd {runCommand} setOutput={(o) => output = o} clearMemory={() => memoria.id_atual = Infinity}/>
     {#if memoria && memoria.id_atual != Infinity}
     <!-- TODO adicionar informações gerais da memória -->
-    <MemoryChart/>
+     <div class="chart">
+        <h2>Memória</h2>
+        <MemoryChart/>
+     </div>
     {/if}
 </main>
 
 <style>
+    main{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
     .terminal{
         width: 100%;
-        height: 100%;
+        height: 18rem;
+        overflow: auto;
+    }
+
+    .chart{
+        padding: 0.5rem;
+
+        border: 1px solid black;
+        background-color: var(--color-secondary);
+
+        & > h2{
+            text-align: center;
+            font-size: 3rem;
+            margin: 0;
+        }
     }
 
     :global(.output){

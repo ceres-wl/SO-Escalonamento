@@ -17,10 +17,7 @@
     }
 </script>
 
-<div>
-    <!-- TODO fazer isso como texto copiável, or fazer o executável de terminal -->
-    <!-- TODO fazer a saida verbose -->
-    <!-- TODO fazer a visualização dos frames -->
+<div class="main">
     <CommonDiv>
         <FrameSteps verb_info={saida.verb_info}/>
     </CommonDiv>
@@ -112,7 +109,13 @@
     {/if}
 </div>
 
-<style>
+<style>    
+    .main{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
     .stats{
         display: flex;
         flex-direction: row;
