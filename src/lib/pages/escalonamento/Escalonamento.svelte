@@ -13,7 +13,6 @@
     import { printTabela } from "./utils/tabela";
     import { getDisableAnimation } from "../../context/disableAnimation";
     import type { Saida } from "./cpp/api/build/Scheduler_wasm";
-    import External from '~icons/fa-solid/external-link-alt'
     import CommonDiv from "../../components/CommonDiv.svelte";
 
     let data: Array<DataPointEscalonamento> = $state([]);
@@ -101,12 +100,6 @@
         </div>
     </CommonDiv>
     {/if}
-    <footer>
-        <p>
-            Projeto criado para a cadeira de Sistemas Operacionais da UFC
-        </p>
-        <p><a target="_blank" href="https://github.com/ceres-wl/SO-Escalonamento">Link para o Repositório <External/></a></p>
-    </footer>
 </div>
 
 <style>
@@ -118,26 +111,6 @@
         gap: 5px;
 
         padding: 5px;
-    }
-
-    footer{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        background-color: var(--color-primary);
-
-        font-weight: bold;
-
-        a{
-            text-decoration: none;
-
-            &:hover{
-                text-decoration: underline dotted;
-            }
-        }
-
-        padding: 0.5rem;
     }
 
     .inputs{

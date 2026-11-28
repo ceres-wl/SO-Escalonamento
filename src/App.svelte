@@ -4,6 +4,7 @@
     import Memoria from "./lib/pages/memoria/Memoria.svelte";
     import Header from "./lib/components/Header.svelte";
     import { setDisableAnimation } from "./lib/context/disableAnimation";
+    import External from '~icons/fa-solid/external-link-alt'
 
     let selected: "Escalonamento" | "Paginação" | "Memória" = $state("Paginação");
 
@@ -15,8 +16,8 @@
 <nav>
     <!-- TODO estilizar isso aqui -->
     <button onclick={() => selected = "Escalonamento"}>Escalonamento</button>
-    <button onclick={() => selected = "Paginação"}>Paginação</button>
     <button onclick={() => selected = "Memória"}>Memória</button>
+    <button onclick={() => selected = "Paginação"}>Paginação</button>
 </nav>
 <main>
     <!-- TODO icone pra simulação de memória e paginação -->
@@ -24,12 +25,18 @@
     <div class={selected!="Escalonamento"?"hide":null}>
         <Escalonamento/>
     </div>
-    <div class={selected!="Paginação"?"hide":null}>
-        <Paginacao/>
-    </div>
     <div class={selected!="Memória"?"hide":null}>
         <Memoria/>
     </div>
+    <div class={selected!="Paginação"?"hide":null}>
+        <Paginacao/>
+    </div>
+    <footer>
+        <p>
+            Projeto criado para a cadeira de Sistemas Operacionais da UFC
+        </p>
+        <p><a target="_blank" href="https://github.com/ceres-wl/SO-Escalonamento">Link para o Repositório <External/></a></p>
+    </footer>
 </main>
 
 <style>
@@ -40,6 +47,27 @@
 
     .hide{
         display: none;
+    }
+
+    footer{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        background-color: var(--color-primary);
+
+        font-weight: bold;
+
+        a{
+            text-decoration: none;
+
+            &:hover{
+                text-decoration: underline dotted;
+            }
+        }
+
+        padding: 0.5rem;
+        margin: 0.25rem 0;
     }
 
     :global(html, body){
@@ -109,6 +137,39 @@
 
         @media screen and (max-width: 48em) {
             flex-direction: column;
+        }
+    }
+
+    :global(table){
+        table-layout: fixed;
+        border-collapse: collapse;
+        border: 1px solid black;
+
+        margin: 0.5rem 0;
+        font-size: 1.3rem;
+
+        :global(thead td, th){
+            border: 1px solid black;
+            background-color: var(--color-secondary);
+        }
+
+        :global(th){
+            padding: 0.25rem;
+        }
+
+        :global(td){
+            border: 1px solid black;
+            padding: 0.5rem;
+        }
+
+        :global(.table-accent){
+            background-color: var(--color-accent);
+        }
+    }
+
+    :global(.striped-table){
+        :global(tr:nth-child(2n)){
+            background-color: var(--color-secondary);
         }
     }
 </style>
